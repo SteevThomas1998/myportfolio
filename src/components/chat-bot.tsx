@@ -9,10 +9,12 @@ import { MessageCircle, X, Send, User, Bot, Loader2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useChat } from "ai/react"
 import ReactMarkdown from "react-markdown"
+import { useTheme } from "next-themes"
 
 export function ChatBot() {
     const [isOpen, setIsOpen] = useState(false)
     const scrollRef = useRef<HTMLDivElement>(null)
+    const { resolvedTheme } = useTheme()
 
     const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
         initialMessages: [
@@ -69,7 +71,10 @@ export function ChatBot() {
                                                         }`}
                                                 >
                                                     <div
-                                                        className={`prose text-sm max-w-none prose-p:leading-normal prose-p:m-0 ${message.role === "user" ? "prose-invert" : "dark:prose-invert"}`}
+                                                        className={`prose text-sm max-w-none prose-p:leading-normal prose-p:m-0 ${message.role === "user"
+                                                            ? (resolvedTheme === "dark" ? "prose-neutral" : "prose-invert")
+                                                            : "dark:prose-invert"
+                                                            }`}
                                                     >
                                                         <ReactMarkdown>
                                                             {message.content}

@@ -3,16 +3,9 @@
 import React from "react"
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps"
 import { useTheme } from "next-themes"
+import { highlightedCountries } from "@/lib/travel-data"
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json"
-
-const highlightedCountries = [
-    { name: "India", status: "visited", color: "#f97316" }, // Orange-500
-    { name: "United Kingdom", status: "visited", color: "#3b82f6" }, // Blue-500
-    { name: "Ireland", status: "current", color: "#22c55e" }, // Green-500
-    { name: "United Arab Emirates", status: "next", color: "#f59e0b" }, // Amber-500
-    { name: "Thailand", status: "next", color: "#f59e0b" } // Amber-500
-]
 
 export function TravelMap() {
     const { theme } = useTheme()

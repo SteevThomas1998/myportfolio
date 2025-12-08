@@ -1,6 +1,7 @@
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import OpenAI from "openai";
 import { allProjects } from "@/lib/projects";
+import { highlightedCountries } from "@/lib/travel-data";
 
 // Ensure API key exists at build time
 if (!process.env.OPENAI_API_KEY) {
@@ -53,8 +54,11 @@ About Steev:
 - Open to new opportunities and freelance work.
 - Contact: Use the contact section on the website.
 
+Travel History:
+${highlightedCountries.map(c => `- ${c.name} (${c.status})`).join("\n")}
+
 Instructions:
-- Answer questions about Steev's work, skills, and projects based on the provided context.
+- Answer questions about Steev's work, skills, projects, and travels based on the provided context.
 - Be concise, friendly, and professional.
 - If asked about a specific project, provide details and encourage the user to check the "View Details" page.
 - Use Markdown formatting for lists and emphasis.
