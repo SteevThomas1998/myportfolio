@@ -5,77 +5,30 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { MessageCircle, X, Send, User, Bot } from "lucide-react"
+import { MessageCircle, X, Send, User, Bot, Loader2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-
-interface Message {
-    id: string
-    role: "user" | "ai"
-    content: string
-}
+import { useChat } from "ai/react"
+import ReactMarkdown from "react-markdown"
 
 export function ChatBot() {
     const [isOpen, setIsOpen] = useState(false)
-    const [messages, setMessages] = useState<Message[]>([
-        {
-            id: "1",
-            role: "ai",
-            content: "Hi! I'm Steev's AI assistant. Ask me anything about his projects, skills, or experience!"
-        }
-    ])
-    const [input, setInput] = useState("")
-    const [isTyping, setIsTyping] = useState(false)
     const scrollRef = useRef<HTMLDivElement>(null)
+
+    const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
+        initialMessages: [
+            {
+                id: "welcome",
+                role: "assistant",
+                content: "Hi! I'm Steev's AI assistant. Ask me anything about his projects, skills, or experience!"
+            }
+        ]
+    })
 
     useEffect(() => {
         if (scrollRef.current) {
             scrollRef.current.scrollIntoView({ behavior: "smooth" })
         }
-    }, [messages, isTyping])
-
-    const handleSend = () => {
-        if (!input.trim()) return
-
-        const userMessage: Message = {
-            id: Date.now().toString(),
-            role: "user",
-            content: input
-        }
-
-        setMessages(prev => [...prev, userMessage])
-        setInput("")
-        setIsTyping(true)
-
-        // Mock AI response delay
-        setTimeout(() => {
-            const aiResponse = generateResponse(userMessage.content)
-            setMessages(prev => [...prev, {
-                id: (Date.now() + 1).toString(),
-                role: "ai",
-                content: aiResponse
-            }])
-            setIsTyping(false)
-        }, 1000)
-    }
-
-    const generateResponse = (query: string): string => {
-        const lowerQuery = query.toLowerCase()
-
-        if (lowerQuery.includes("project") || lowerQuery.includes("work")) {
-            return "Steev has worked on various full-stack projects using Next.js and Tailwind. You can check out the Projects page for more details!"
-        }
-        if (lowerQuery.includes("skill") || lowerQuery.includes("stack") || lowerQuery.includes("tech")) {
-            return "Steev specializes in React, Next.js, TypeScript, Node.js, and Tailwind CSS. He is also proficient in backend technologies like PostgreSQL and AWS."
-        }
-        if (lowerQuery.includes("contact") || lowerQuery.includes("email") || lowerQuery.includes("hire")) {
-            return "You can reach Steev at email@example.com. He is currently open to new opportunities!"
-        }
-        if (lowerQuery.includes("hello") || lowerQuery.includes("hi")) {
-            return "Hello there! How can I help you today?"
-        }
-
-        return "That's an interesting question! While I'm just a simple AI, I recommend looking through the portfolio to find more about what you're looking for."
-    }
+    }, [messages, isLoading])
 
     return (
         <>
@@ -115,19 +68,24 @@ export function ChatBot() {
                                                         : "bg-muted text-foreground"
                                                         }`}
                                                 >
-                                                    {message.content}
+                                                    <div
+                                                        className={`prose text-sm max-w-none prose-p:leading-normal prose-p:m-0 ${message.role === "user" ? "prose-invert" : "dark:prose-invert"}`}
+                                                    >
+                                                        <ReactMarkdown>
+                                                            {message.content}
+                                                        </ReactMarkdown>
+                                                    </div>
                                                 </div>
                                             </div>
                                         ))}
-                                        {isTyping && (
+                                        {isLoading && (
                                             <div className="flex gap-2 flex-row">
                                                 <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-muted">
                                                     <Bot className="w-4 h-4" />
                                                 </div>
-                                                <div className="bg-muted rounded-lg p-3 text-sm flex items-center gap-1">
-                                                    <span className="w-1.5 h-1.5 bg-foreground/50 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                                                    <span className="w-1.5 h-1.5 bg-foreground/50 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                                                    <span className="w-1.5 h-1.5 bg-foreground/50 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                                                <div className="bg-muted rounded-lg p-3 text-sm flex items-center gap-2 text-muted-foreground">
+                                                    <Loader2 className="h-3 w-3 animate-spin" />
+                                                    Typing...
                                                 </div>
                                             </div>
                                         )}
@@ -137,19 +95,16 @@ export function ChatBot() {
                             </CardContent>
                             <CardFooter className="p-4 border-t">
                                 <form
-                                    onSubmit={(e: React.FormEvent) => {
-                                        e.preventDefault()
-                                        handleSend()
-                                    }}
+                                    onSubmit={handleSubmit}
                                     className="flex w-full gap-2"
                                 >
                                     <Input
                                         placeholder="Type a message..."
                                         value={input}
-                                        onChange={(e) => setInput(e.target.value)}
+                                        onChange={handleInputChange}
                                         className="flex-1"
                                     />
-                                    <Button type="submit" size="icon" disabled={!input.trim() || isTyping}>
+                                    <Button type="submit" size="icon" disabled={!input.trim() || isLoading}>
                                         <Send className="w-4 h-4" />
                                     </Button>
                                 </form>

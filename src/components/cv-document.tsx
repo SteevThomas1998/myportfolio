@@ -1,7 +1,8 @@
+
 /* eslint-disable jsx-a11y/alt-text */
 "use client"
 
-import { Page, Text, View, Document, StyleSheet, Font } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 
 const styles = StyleSheet.create({
     page: {
@@ -104,7 +105,7 @@ export const CVDocument = () => (
                     <Text style={styles.company}>Stride Real Estate LLC, Dallas, Texas, United States</Text>
                     <Text style={styles.date}>Feb 2022 – Jan 2024</Text>
                     <Text style={styles.text}>• Built and maintained Angular and React applications for real estate operations, improving the overall user experience by implementing features like blog page, updating user and agent dashboard and intuitive agent workflows.</Text>
-                    <Text style={styles.text}>• Added data visualization features such as "Year at a Glance" charts, helping agents make faster, data-driven decisions.</Text>
+                    <Text style={styles.text}>• Added data visualization features such as &quot;Year at a Glance&quot; charts, helping agents make faster, data-driven decisions.</Text>
                     <Text style={styles.text}>• Contributed to the early development of KOSEApp — an ambitious platform aimed at enabling instant property purchases via web and React Native apps.</Text>
                     <Text style={styles.text}>• Leveraged AWS services for deployment and cloud-based scaling, ensuring consistent performance and reliability for a growing user base.</Text>
                     <Text style={styles.text}>• Tech stack: Angular, React, React Native, Node.js, AWS, Git</Text>

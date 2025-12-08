@@ -6,7 +6,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { Menu } from "lucide-react"
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+
 
 export function Header() {
     const [open, setOpen] = useState(false)

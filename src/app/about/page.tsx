@@ -1,7 +1,11 @@
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { CVDownloadButton } from "@/components/cv-download-button"
+import dynamic from "next/dynamic"
+const CVDownloadButton = dynamic(() => import("@/components/cv-download-button").then(mod => mod.CVDownloadButton), {
+    ssr: false,
+    loading: () => <button className="h-10 px-4 py-2 bg-primary/10 rounded-md animate-pulse">Loading...</button>
+})
 import { ExperienceTimeline } from "@/components/experience-timeline"
 
 export default function AboutPage() {

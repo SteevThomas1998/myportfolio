@@ -76,8 +76,9 @@ export default function TravelPage() {
                         <span className="font-semibold tracking-wider uppercase text-sm">My Journey</span>
                     </div>
                     <h1 className="font-bold text-4xl tracking-tight lg:text-5xl">
-                        Countries I've Visited
+                        Countries I&apos;ve Visited
                     </h1>
+                    <p className="text-muted-foreground mb-8">Here&apos;s a map of places I&apos;ve visited. I love exploring new cultures and trying new foods!</p>
                     <p className="text-xl text-muted-foreground max-w-2xl">
                         Exploring the world one country at a time. From my roots in India to my current home in Ireland, and future adventures ahead.
                     </p>

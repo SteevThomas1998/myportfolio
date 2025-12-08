@@ -24,7 +24,7 @@ export function CVDownloadButton() {
 
     return (
         <PDFDownloadLink document={<CVDocument />} fileName="Steev_Thomas_CV.pdf">
-            {({ blob, url, loading, error }) => {
+            {({ loading, error }) => {
                 if (error) {
                     return (
                         <Button variant="destructive" disabled>
