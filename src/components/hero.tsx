@@ -47,7 +47,7 @@ export function Hero() {
                 </motion.div>
             </div>
 
-            <div className="hidden lg:block">
+            <div className="block">
                 <TechStackRadar hideHeader className="py-0 md:py-0 lg:py-0" />
             </div>
         </section >
