@@ -8,7 +8,8 @@ export const maxDuration = 30;
 
 export async function POST(req: Request) {
     try {
-        const apiKey = process.env.OPENAI_API_KEY;
+        // Trim the API key to remove any accidental whitespace or newlines
+        const apiKey = process.env.OPENAI_API_KEY?.trim();
 
         if (!apiKey) {
             console.error("[CHAT_API_ERROR] OPENAI_API_KEY is not set");
