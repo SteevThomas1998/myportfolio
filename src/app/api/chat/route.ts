@@ -3,21 +3,30 @@ import OpenAI from "openai";
 import { allProjects } from "@/lib/projects";
 import { highlightedCountries } from "@/lib/travel-data";
 
-// Ensure API key exists at build time
-if (!process.env.OPENAI_API_KEY) {
-    throw new Error("OPENAI_API_KEY is not set");
-}
-
-// Create an OpenAI API client
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-});
-
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
     try {
+        const apiKey = process.env.OPENAI_API_KEY;
+
+        if (!apiKey) {
+            console.error("[CHAT_API_ERROR] OPENAI_API_KEY is not set");
+            return new Response(
+                JSON.stringify({
+                    error: "Server configuration error: API key missing.",
+                }),
+                {
+                    status: 500,
+                    headers: { "Content-Type": "application/json" },
+                }
+            );
+        }
+
+        const openai = new OpenAI({
+            apiKey: apiKey,
+        });
+
         const body = await req.json();
         const messages = body?.messages;
 
