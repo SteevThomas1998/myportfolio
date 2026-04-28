@@ -5,21 +5,9 @@ import { ModeToggle } from "@/components/mode-toggle"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { Menu, Search } from "lucide-react"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 
 function CommandTrigger() {
-    const [open, setOpen] = useState(false)
-
-    useEffect(() => {
-        const down = (e: KeyboardEvent) => {
-            if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-                setOpen(true)
-            }
-        }
-        document.addEventListener("keydown", down)
-        return () => document.removeEventListener("keydown", down)
-    }, [])
-
     return (
         <button
             onClick={() => {
