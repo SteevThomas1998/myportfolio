@@ -49,19 +49,19 @@ export default function BlogPage() {
                 variants={container}
                 initial="hidden"
                 animate="show"
-                className="grid gap-6 md:grid-cols-2 lg:grid-cols-2"
+                className={`grid gap-6 ${blogPosts.length === 1 ? "max-w-2xl" : "md:grid-cols-2"}`}
             >
                 {blogPosts.map((post) => (
                     <motion.div key={post.slug} variants={item}>
-                        <Link href={`/blog/${post.slug}`} className="h-full block">
-                            <Card className="flex flex-col h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:bg-muted/30 border-muted">
+                        <Link href={`/blog/${post.slug}`} className="h-full block group">
+                            <Card className="flex flex-col h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-emerald-500/50 glow-emerald">
                                 <CardHeader>
-                                    <div className="flex gap-2 mb-3">
+                                    <div className="flex flex-wrap gap-2 mb-3">
                                         {post.tags.map(tag => (
-                                            <Badge key={tag} variant="secondary" className="font-normal text-xs">{tag}</Badge>
+                                            <Badge key={tag} className="font-normal text-xs bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800">{tag}</Badge>
                                         ))}
                                     </div>
-                                    <CardTitle className="text-2xl leading-tight group-hover:text-primary transition-colors">
+                                    <CardTitle className="text-2xl leading-tight group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                                         {post.title}
                                     </CardTitle>
                                 </CardHeader>
@@ -73,7 +73,7 @@ export default function BlogPage() {
                                     </div>
                                 </CardContent>
                                 <CardFooter>
-                                    <div className="text-primary font-medium flex items-center gap-2 text-sm group-hover:translate-x-1 transition-transform">
+                                    <div className="text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-2 text-sm group-hover:translate-x-1 transition-transform">
                                         Read article
                                         <ArrowRightIcon className="w-4 h-4" />
                                     </div>

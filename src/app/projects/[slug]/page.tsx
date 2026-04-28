@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, Github, ExternalLink } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { Metadata } from "next"
 
 interface Props {
@@ -47,6 +48,19 @@ export default function ProjectDetailPage({ params }: Props) {
 
             <div className="grid gap-10 lg:grid-cols-[2fr_1fr]">
                 <div className="space-y-8">
+                    {project.image && (
+                        <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-border shadow-lg">
+                            <Image
+                                src={project.image}
+                                alt={project.title}
+                                fill
+                                className="object-cover object-top"
+                                sizes="(max-width: 1024px) 100vw, 66vw"
+                                priority
+                            />
+                        </div>
+                    )}
+
                     <div className="space-y-4">
                         <h1 className="text-4xl font-bold tracking-tight md:text-5xl">{project.title}</h1>
                         <p className="text-xl text-muted-foreground leading-relaxed">
@@ -86,18 +100,22 @@ export default function ProjectDetailPage({ params }: Props) {
                     <div className="rounded-xl border bg-card p-6 shadow-sm">
                         <h3 className="font-semibold text-lg mb-4">Project Links</h3>
                         <div className="flex flex-col gap-3">
-                            <Link href={project.githubLink || "#"} target="_blank">
-                                <Button className="w-full gap-2" variant="outline">
-                                    <Github className="h-4 w-4" />
-                                    View Source Code
-                                </Button>
-                            </Link>
-                            <Link href="#" target="_blank">
-                                <Button className="w-full gap-2">
-                                    <ExternalLink className="h-4 w-4" />
-                                    Live Demo
-                                </Button>
-                            </Link>
+                            {project.githubLink && (
+                                <Link href={project.githubLink} target="_blank">
+                                    <Button className="w-full gap-2" variant="outline">
+                                        <Github className="h-4 w-4" />
+                                        View Source Code
+                                    </Button>
+                                </Link>
+                            )}
+                            {project.liveLink && (
+                                <Link href={project.liveLink} target="_blank">
+                                    <Button className="w-full gap-2">
+                                        <ExternalLink className="h-4 w-4" />
+                                        Live Demo
+                                    </Button>
+                                </Link>
+                            )}
                         </div>
                     </div>
 

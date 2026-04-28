@@ -61,16 +61,20 @@ export function Contact() {
     }
 
     return (
-        <section className="container py-12 md:py-24 lg:py-32">
+        <section className="relative container py-12 md:py-24 lg:py-32 overflow-hidden">
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-transparent via-emerald-50/30 to-transparent dark:via-emerald-950/15 rounded-3xl" />
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
-                className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center mb-12"
+                className="relative mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center mb-12"
             >
                 <h2 className="text-3xl font-bold leading-[1.1] sm:text-3xl md:text-6xl">
-                    Get in Touch
+                    Get in{" "}
+                    <span className="bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">
+                        Touch
+                    </span>
                 </h2>
                 <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
                     Have a project in mind or just want to say hi? I&apos;d love to hear from you.
@@ -176,25 +180,25 @@ export function Contact() {
                     </div>
 
                     <div className="grid gap-4">
-                        <Link href="https://github.com/SteevThomas1998" target="_blank" className="flex items-center gap-4 p-4 rounded-lg border bg-card hover:bg-accent transition-colors">
-                            <Github className="h-6 w-6" />
+                        <Link href="https://github.com/SteevThomas1998" target="_blank" className="flex items-center gap-4 p-4 rounded-lg border bg-card hover:bg-emerald-50 hover:border-emerald-200 dark:hover:bg-emerald-950/30 dark:hover:border-emerald-800 transition-all duration-300">
+                            <Github className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                             <div className="flex-1">
                                 <h4 className="font-semibold">GitHub</h4>
                                 <p className="text-sm text-muted-foreground">Check out my open source projects</p>
                             </div>
                         </Link>
-                        <Link href="https://linkedin.com/in/steve-thomas-2788641a9" target="_blank" className="flex items-center gap-4 p-4 rounded-lg border bg-card hover:bg-accent transition-colors">
-                            <Linkedin className="h-6 w-6" />
+                        <Link href="https://linkedin.com/in/steve-thomas-2788641a9" target="_blank" className="flex items-center gap-4 p-4 rounded-lg border bg-card hover:bg-emerald-50 hover:border-emerald-200 dark:hover:bg-emerald-950/30 dark:hover:border-emerald-800 transition-all duration-300">
+                            <Linkedin className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                             <div className="flex-1">
                                 <h4 className="font-semibold">LinkedIn</h4>
                                 <p className="text-sm text-muted-foreground">Connect with me professionally</p>
                             </div>
                         </Link>
-                        <Link href="mailto:steevthomaswk@gmail.com" className="flex items-center gap-4 p-4 rounded-lg border bg-card hover:bg-accent transition-colors">
-                            <Mail className="h-6 w-6" />
+                        <Link href="mailto:stevethomaswk@gmail.com" className="flex items-center gap-4 p-4 rounded-lg border bg-card hover:bg-emerald-50 hover:border-emerald-200 dark:hover:bg-emerald-950/30 dark:hover:border-emerald-800 transition-all duration-300">
+                            <Mail className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                             <div className="flex-1">
                                 <h4 className="font-semibold">Email</h4>
-                                <p className="text-sm text-muted-foreground">steevthomaswk@gmail.com</p>
+                                <p className="text-sm text-muted-foreground">stevethomaswk@gmail.com</p>
                             </div>
                         </Link>
                         {/* Removed Twitter as it wasn't on the resume, keeping generic GitHub/LinkedIn/Email */}

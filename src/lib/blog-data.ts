@@ -9,108 +9,176 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
     {
-        slug: "building-scalable-nextjs-apps",
-        title: "Building Scalable Next.js Applications",
-        excerpt: "Learn how to structure your Next.js projects for maintainability and performance. We discuss folder structure, state management, and more.",
-        date: "March 15, 2024",
-        tags: ["Next.js", "Architecture", "Performance"],
+        slug: "i-built-an-ai-that-reads-your-gmail-and-tracks-job-applications",
+        title: "I Built an AI That Reads Your Gmail and Tracks Job Applications",
+        excerpt: "Tired of losing track of job applications in a messy spreadsheet, I built Stealeen — an AI-powered tracker that connects to your Gmail and automatically detects, parses, and organises every application for you.",
+        date: "April 2025",
+        tags: ["AI", "Gmail API", "React", "Supabase", "OpenAI", "Side Project"],
         content: `
-# Building Scalable Next.js Applications
+# I Built an AI That Reads Your Gmail and Tracks Job Applications
 
-Next.js has become the go-to framework for React development, offering a powerful set of features out of the box. However, as your application grows, maintaining a clean and scalable structure becomes crucial.
+Job hunting is exhausting enough. The last thing you need is a second job just *managing* your applications.
 
-## Folder Structure
+Spreadsheets get stale. Notes apps get messy. And most job trackers require you to manually paste in every single application — which nobody actually does consistently.
 
-A well-organized folder structure is the backbone of a scalable application. Here's a recommended structure:
+So I built **Stealeen**: an AI-powered job application tracker that connects to your Gmail inbox and does the tracking for you, automatically.
 
-- \`src/app\`: Application routes and pages
-- \`src/components\`: Reusable UI components
-- \`src/lib\`: Utility functions and helpers
-- \`src/hooks\`: Custom React hooks
-- \`src/types\`: TypeScript type definitions
+---
 
-## State Management
+## The Problem
 
-While React's built-in \`useState\` and \`useContext\` are powerful, complex applications often require more robust solutions. Libraries like **Zustand** or **Redux Toolkit** can help manage global state effectively.
+When you apply for jobs at scale, your inbox becomes a graveyard of:
 
-## Performance Optimization
+- Application confirmations
+- Automated rejections
+- Interview invites
+- Recruiter follow-ups
+- Assessment links
 
-Next.js provides excellent performance defaults, but you can further optimize your app by:
+Keeping on top of all of that manually is a real cognitive load. I wanted something that would just *know* — without me having to touch it.
 
-1. **Image Optimization**: utilizing the \`next/image\` component.
-2. **Code Splitting**: Dynamic imports for heavy components.
-3. **Caching**: Leveraging Next.js caching strategies.
+---
 
-By following these practices, you can ensure your Next.js application remains performant and maintainable as it scales.
+## How It Works
+
+Stealeen connects to Gmail via **OAuth 2.0** and monitors incoming emails in real time. When a job-related email arrives, it goes through a two-layer processing system:
+
+### Layer 1 — Regex Engine
+
+A pattern-matching engine that recognises emails from **30+ Applicant Tracking Systems** — Greenhouse, Lever, Workday, and more. This handles the majority of emails instantly, with no API call needed and no cost.
+
+### Layer 2 — GPT-4o-mini Fallback
+
+For emails that don't match a known pattern (non-standard company emails, bespoke hiring tools), the email is passed to **GPT-4o-mini**, which reads the content and classifies it intelligently.
+
+The system also filters out noise — LinkedIn digests, recruiter spam, financial app alerts — so your dashboard stays clean and accurate.
+
+---
+
+## What You Get
+
+Once it's running, Stealeen gives you:
+
+- **Kanban board and list view** — visualise your pipeline at a glance
+- **Automatic status progression** — Applied → Interview → Offer → Rejected, updated as emails arrive
+- **Manual override** — correct any misclassification with one click
+- **Follow-up reminders** — so no opportunity goes cold
+- **Real-time dashboard updates** — always current, no refresh needed
+- **Dark mode** — because of course
+
+---
+
+## The Stack
+
+I deliberately kept the infrastructure lean and scalable:
+
+| Layer | Tech |
+|---|---|
+| Frontend | React + TypeScript |
+| Backend / DB | Supabase (PostgreSQL) |
+| Deployment | Vercel |
+| Email Integration | Gmail API |
+| AI Parsing | OpenAI GPT-4o-mini |
+
+The two-tier approach (regex first, AI as fallback) keeps costs low while maintaining high accuracy across a wide range of email formats.
+
+---
+
+## Current Status
+
+Stealeen is live and in **private beta**. If you're job hunting and want to try it, head to [stealeen.com](https://www.stealeen.com) and sign up.
+
+I'm actively improving the parser, adding more ATS pattern support, and working on analytics features — so there's a lot more to come.
+
+---
+
+If you've ever lost track of an application or missed a follow-up because your inbox was a mess, this was built for you.
+
+Would love to hear your feedback. 👇
+
+#AI #JobSearch #OpenAI #GmailAPI #React #Supabase #SideProject #BuildInPublic
         `
     },
     {
-        slug: "mastering-tailwind-css",
-        title: "Mastering Tailwind CSS: Tips and Tricks",
-        excerpt: "A deep dive into advanced Tailwind CSS features and how to use them effectively to build beautiful, responsive designs.",
-        date: "February 28, 2024",
-        tags: ["CSS", "Tailwind", "Design"],
+        slug: "github-actions-vs-aws-codepipeline",
+        title: "GitHub Actions vs AWS CodePipeline for CI/CD",
+        excerpt: "After refining DevOps workflows across multiple Node.js projects, here's what I learned comparing GitHub Actions and AWS CodePipeline — and why AI is set to transform both.",
+        date: "April 28, 2025",
+        tags: ["DevOps", "CI/CD", "GitHub Actions", "AWS", "Node.js", "AI"],
         content: `
-# Mastering Tailwind CSS
+# 🚀 GitHub Actions vs AWS CodePipeline for CI/CD
+### And how AI is set to transform them both!
 
-Tailwind CSS has revolutionized the way we style web applications. It's a utility-first framework that allows you to build custom designs without leaving your HTML.
+Over the past few weeks, I've been refining DevOps workflows across multiple Node.js projects — including a full-stack Job Tracker API with JWT auth, full CRUD, test automation (Jest + Supertest), and CI integrations.
 
-## Customizing the Config
+I experimented with both GitHub Actions and have experience with AWS CodePipeline + CodeCommit — here's what stood out:
 
-The \`tailwind.config.js\` file is where the magic happens. You can extend the default theme to match your brand identity:
+---
 
-\`\`\`javascript
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        primary: '#FF5733',
-        secondary: '#33FF57',
-      },
-    },
-  },
-}
+## ✅ GitHub Actions
+
+- Seamless setup within the GitHub ecosystem
+- Developer-friendly YAML workflows
+- Huge community marketplace
+- Best for open-source and lightweight, fast-moving projects
+
+A typical workflow looks like this:
+
+\`\`\`yaml
+name: CI
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm install
+      - run: npm test
 \`\`\`
 
-## Using @apply
+Simple, readable, and live in minutes.
 
-While utility classes are great, sometimes you want to reuse a set of styles. The \`@apply\` directive lets you extract common patterns into CSS classes:
+---
 
-\`\`\`css
-.btn {
-  @apply py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-700;
-}
-\`\`\`
+## ☁️ AWS CodePipeline + CodeCommit
 
-## Dark Mode
+- Powerful for enterprise use when paired with S3, ECS, Lambda
+- Granular IAM control and scalable integrations
+- Ideal for teams operating entirely within the AWS cloud
 
-Implementing dark mode is seamless with Tailwind. Simply add the \`dark:\` prefix to your classes to define styles for dark mode.
+When you're already deep in the AWS ecosystem — running ECS clusters, Lambda functions, and S3 deployments — CodePipeline offers native integration that GitHub Actions simply can't match out of the box.
 
-Tailwind provides the flexibility and speed needed for modern web development.
-        `
-    },
-    {
-        slug: "react-server-components",
-        title: "Understanding React Server Components",
-        excerpt: "What are React Server Components and why should you care about them? A comprehensive guide to the future of React.",
-        date: "January 10, 2024",
-        tags: ["React", "RSC", "Frontend"],
-        content: `
-# Understanding React Server Components
+---
 
-React Server Components (RSC) represent a paradigm shift in how we build React applications. They allow you to write components that run exclusively on the server.
+## 🧠 Key Takeaway
 
-## Key Benefits
+> If you want **simplicity and speed**, GitHub Actions wins.
+> If you're already **living inside AWS**, CodePipeline offers unmatched control.
 
-1. **Zero Bundle Size**: Server components don't add to the JavaScript bundle sent to the client.
-2. **Direct Backend Access**: You can access your database or file system directly from your components.
-3. **Improved Performance**: By doing more work on the server, you reduce the load on the client device.
+The choice really comes down to where your infrastructure lives, not which tool is objectively better.
 
-## How it Works
+---
 
-Traditionally, React apps render on the client (CSR) or strictly pre-render HTML (SSR). RSCs allow a hybrid approach where some components render on the server and stream to the client as specific UI updates, while others remain interactive client components.
+## 🤖 But here's what really excites me — AI is transforming CI/CD
 
-This hybrid model offers the best of both worlds: the interactivity of client-side apps and the performance of server-side rendering.
+From GitHub Copilot generating workflows automatically...
+To AI-powered failure prediction, adaptive testing, and smart pipeline optimisation...
+
+We're heading into a future where deployment isn't just automated — it's **intelligent**.
+
+Imagine:
+
+- → Pipelines that **debug themselves**
+- → Tests that **adapt to code changes**
+- → Deployments that **suggest rollback strategies** before errors even happen
+
+This intersection of DevOps + AI is where a lot of innovation is brewing — and I'm following it closely.
+
+---
+
+Which stack do you use for CI/CD? And what's your take on AI's role in the future of software delivery?
+
+#GitHubActions #AWSCodePipeline #DevOps #CICD #NodeJS #Automation #AIinDevOps #CloudEngineering
         `
     }
 ]

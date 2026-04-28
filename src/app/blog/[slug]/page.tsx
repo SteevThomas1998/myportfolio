@@ -48,9 +48,9 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
 
             <div className="space-y-4">
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                     {post.tags.map(tag => (
-                        <Badge key={tag} variant="secondary">{tag}</Badge>
+                        <Badge key={tag} className="bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800">{tag}</Badge>
                     ))}
                 </div>
                 <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">

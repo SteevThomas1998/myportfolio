@@ -4,8 +4,38 @@ import Link from "next/link"
 import { ModeToggle } from "@/components/mode-toggle"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
-import { Menu } from "lucide-react"
-import { useState } from "react"
+import { Menu, Search } from "lucide-react"
+import { useState, useEffect } from "react"
+
+function CommandTrigger() {
+    const [open, setOpen] = useState(false)
+
+    useEffect(() => {
+        const down = (e: KeyboardEvent) => {
+            if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+                setOpen(true)
+            }
+        }
+        document.addEventListener("keydown", down)
+        return () => document.removeEventListener("keydown", down)
+    }, [])
+
+    return (
+        <button
+            onClick={() => {
+                const event = new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true })
+                document.dispatchEvent(event)
+            }}
+            className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-sm text-muted-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground w-full max-w-[200px]"
+        >
+            <Search className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline-flex">Search...</span>
+            <kbd className="ml-auto hidden sm:inline-flex pointer-events-none h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100">
+                <span className="text-xs">⌘</span>K
+            </kbd>
+        </button>
+    )
+}
 
 
 export function Header() {
@@ -95,7 +125,7 @@ export function Header() {
 
                 <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
                     <div className="w-full flex-1 md:w-auto md:flex-none">
-                        {/* Search or other items */}
+                        <CommandTrigger />
                     </div>
                     <nav className="flex items-center">
                         <ModeToggle />
