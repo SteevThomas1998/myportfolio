@@ -32,15 +32,22 @@ const countries = [
     {
         name: "United Kingdom",
         status: "visited",
-        description: "Exploring history, castles, and the bustling city life of London.",
+        description: "Exploring history, castles, and the bustling city life of London and Manchester.",
         year: "Visited",
         color: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800"
     },
     {
         name: "Ireland",
-        status: "current",
-        description: "Current base. The Emerald Isle, known for its friendly people and stunning coastlines.",
-        year: "Current",
+        status: "visited",
+        description: "The Emerald Isle — known for its friendly people, stunning coastlines, and great craic.",
+        year: "Visited",
+        color: "bg-green-500/10 text-green-600 dark:text-green-400 border-green-200 dark:border-green-800"
+    },
+    {
+        name: "Thailand",
+        status: "visited",
+        description: "Tropical beaches, royal palaces, and ancient ruins — an unforgettable experience.",
+        year: "Visited",
         color: "bg-green-500/10 text-green-600 dark:text-green-400 border-green-200 dark:border-green-800"
     }
 ]
@@ -48,17 +55,18 @@ const countries = [
 const nextDestinations = [
     {
         name: "United Arab Emirates",
-        status: "next",
-        description: "The next chapter. Looking forward to modern skylines and desert adventures.",
-        year: "Next Stop",
-        color: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800"
+        description: "Modern skylines, desert adventures, and world-class architecture await.",
+        year: "Upcoming",
     },
     {
-        name: "Thailand",
-        status: "next",
-        description: "Tropical beaches, royal palaces, and ancient ruins awaiting exploration.",
-        year: "Coming Soon",
-        color: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800"
+        name: "Turkey",
+        description: "Where East meets West — stunning mosques, bazaars, and coastal scenery.",
+        year: "Upcoming",
+    },
+    {
+        name: "Spain",
+        description: "Vibrant culture, incredible food, and some of Europe's most beautiful cities.",
+        year: "Upcoming",
     }
 ]
 
@@ -80,7 +88,7 @@ export default function TravelPage() {
                     </h1>
                     <p className="text-muted-foreground mb-8">Here&apos;s a map of places I&apos;ve visited. I love exploring new cultures and trying new foods!</p>
                     <p className="text-xl text-muted-foreground max-w-2xl">
-                        Exploring the world one country at a time. From my roots in India to my current home in Ireland, and future adventures ahead.
+                        Exploring the world one country at a time. From my roots in India across Europe and Southeast Asia, with more adventures on the horizon.
                     </p>
 
                     <div className="mt-8">
@@ -103,9 +111,7 @@ export default function TravelPage() {
                                     <Badge variant="outline" className={`${country.color} border-0`}>
                                         {country.year}
                                     </Badge>
-                                    {country.status === "current" && (
-                                        <MapPin className="h-5 w-5 text-green-500 animate-bounce" />
-                                    )}
+                                    <MapPin className="h-5 w-5 text-emerald-500" />
                                 </div>
                                 <CardTitle className="text-2xl">{country.name}</CardTitle>
                             </CardHeader>
@@ -144,7 +150,7 @@ export default function TravelPage() {
                                 <CardTitle className="text-2xl">{destination.name}</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <CardDescription className="text-base text-muted-foreground">
+                                <CardDescription className="text-base">
                                     {destination.description}
                                 </CardDescription>
                             </CardContent>

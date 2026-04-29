@@ -6,7 +6,7 @@ import { TechStackRadar } from "@/components/tech-stack-radar"
 import { Keyboard } from "lucide-react"
 import { useEffect, useState } from "react"
 
-const TYPEWRITER_TEXT = "<Hi I am Steev Thomas />"
+const TYPEWRITER_TEXT = `console.log("Hello World! I'm Steev Thomas 👋")`
 
 function Typewriter() {
     const [displayed, setDisplayed] = useState("")

@@ -34,11 +34,11 @@ export function Skills() {
                 {skills.map((skill, index) => (
                     <motion.div
                         key={skill}
-                        initial={{ opacity: 0, scale: 0.5 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
+                        initial={{ opacity: 0, scale: 0.85, y: 10 }}
+                        whileInView={{ opacity: 1, scale: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: index * 0.08 }}
-                        whileHover={{ scale: 1.1 }}
+                        transition={{ duration: 0.25, delay: index * 0.04, ease: "easeOut" }}
+                        whileHover={{ scale: 1.08 }}
                     >
                         <div className={`inline-flex items-center justify-center rounded-md border px-4 py-2 text-sm font-semibold w-full cursor-pointer transition-all duration-300 hover:shadow-md hover:shadow-emerald-500/20 ${emeraldShades[index % emeraldShades.length]}`}>
                             {skill}
