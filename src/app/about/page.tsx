@@ -118,7 +118,7 @@ export default function AboutPage() {
             {/* Certifications */}
             <section>
                 <h2 className="text-3xl font-bold tracking-tight mb-8">Certifications</h2>
-                <div className="grid gap-6 md:grid-cols-2">
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     <Card className="border-emerald-200/50 dark:border-emerald-800/50">
                         <CardHeader className="flex flex-row items-start gap-4">
                             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800">
@@ -151,6 +151,28 @@ export default function AboutPage() {
                         <CardContent className="space-y-1">
                             <p className="text-sm text-muted-foreground">Earned Nov 30, 2025</p>
                             <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Completion Badge</p>
+                        </CardContent>
+                    </Card>
+                    <Card className="border-emerald-200/50 dark:border-emerald-800/50">
+                        <CardHeader className="flex flex-row items-start gap-4">
+                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800">
+                                <span className="text-xs font-bold text-purple-600 dark:text-purple-400">U</span>
+                            </div>
+                            <div className="space-y-1">
+                                <CardTitle className="text-base leading-snug">Angular & NodeJS — The MEAN Stack Guide</CardTitle>
+                                <p className="text-sm text-muted-foreground">Udemy · Maximilian Schwarzmüller</p>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="space-y-1">
+                            <p className="text-sm text-muted-foreground">Issued Jan 31, 2022 · 13 hours</p>
+                            <a
+                                href="https://ude.my/UC-f35d9f04-d4cf-4b41-8517-459659dc84c2"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-xs text-emerald-600 dark:text-emerald-400 font-medium hover:underline"
+                            >
+                                View Certificate →
+                            </a>
                         </CardContent>
                     </Card>
                 </div>
