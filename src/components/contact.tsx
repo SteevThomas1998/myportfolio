@@ -67,7 +67,7 @@ export function Contact() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.3 }}
                 className="relative mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center mb-12"
             >
                 <h2 className="text-3xl font-bold leading-[1.1] sm:text-3xl md:text-6xl">
@@ -83,10 +83,10 @@ export function Contact() {
 
             <div className="grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
                 <motion.div
-                    initial={{ opacity: 0, x: -20 }}
+                    initial={{ opacity: 0, x: -16 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
+                    transition={{ duration: 0.3, delay: 0.1 }}
                 >
                     <Card>
                         <CardHeader>
@@ -166,10 +166,10 @@ export function Contact() {
                 </motion.div>
 
                 <motion.div
-                    initial={{ opacity: 0, x: 20 }}
+                    initial={{ opacity: 0, x: 16 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
+                    transition={{ duration: 0.3, delay: 0.15 }}
                     className="flex flex-col justify-center gap-8"
                 >
                     <div className="flex flex-col gap-4">
