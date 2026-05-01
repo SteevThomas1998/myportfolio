@@ -92,11 +92,11 @@ export function Hero() {
                         {headingWords.map((word, i) => (
                             <motion.span
                                 key={word}
-                                initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
-                                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                                initial={{ opacity: 0, y: 16 }}
+                                animate={{ opacity: 1, y: 0 }}
                                 transition={{
-                                    duration: 0.4,
-                                    delay: 0.15 + i * 0.07,
+                                    duration: 0.2,
+                                    delay: 0.05 + i * 0.03,
                                     ease: [0.22, 1, 0.36, 1],
                                 }}
                             >
@@ -106,11 +106,11 @@ export function Hero() {
                     </span>
                     <motion.span
                         className="block bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 bg-clip-text text-transparent"
-                        initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
-                        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
                         transition={{
-                            duration: 0.4,
-                            delay: 0.15 + headingWords.length * 0.07 + 0.04,
+                            duration: 0.2,
+                            delay: 0.05 + headingWords.length * 0.03 + 0.02,
                             ease: [0.22, 1, 0.36, 1],
                         }}
                     >
@@ -121,7 +121,7 @@ export function Hero() {
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.55 }}
+                    transition={{ duration: 0.2, delay: 0.25 }}
                     className="max-w-[700px] text-lg text-muted-foreground sm:text-xl"
                 >
                     MSc Computing graduate with 4+ years building production web applications across JavaScript frameworks, WordPress, and cloud infrastructure. Based in Manchester.
@@ -130,7 +130,7 @@ export function Hero() {
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.4, delay: 0.7 }}
+                    transition={{ duration: 0.2, delay: 0.35 }}
                     className="flex gap-4"
                 >
                     <Link href="/projects">
@@ -148,7 +148,7 @@ export function Hero() {
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.85 }}
+                    transition={{ duration: 0.2, delay: 0.45 }}
                     className="flex items-center gap-2 mt-2"
                 >
                     <motion.div
@@ -170,7 +170,7 @@ export function Hero() {
                 className="relative block"
                 initial={{ opacity: 0, x: 40 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.25, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
             >
                 <TechStackRadar hideHeader className="py-0 md:py-0 lg:py-0" />
             </motion.div>

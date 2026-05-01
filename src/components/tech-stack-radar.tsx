@@ -56,7 +56,7 @@ export function TechStackRadar({ hideHeader = false, className = "" }: TechStack
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ duration: 0.2 }}
                     className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center mb-8"
                 >
                     <h2 className="text-3xl font-bold leading-[1.1] sm:text-3xl md:text-6xl">
@@ -79,7 +79,7 @@ export function TechStackRadar({ hideHeader = false, className = "" }: TechStack
                             stroke="hsl(var(--primary))"
                             fill="hsl(var(--primary))"
                             fillOpacity={0.4}
-                            isAnimationActive={true}
+                            isAnimationActive={false}
                         />
                     </RadarChart>
                 </ResponsiveContainer>

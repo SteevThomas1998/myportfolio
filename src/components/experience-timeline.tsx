@@ -50,7 +50,7 @@ export function ExperienceTimeline() {
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.5, delay: index * 0.2 }}
+                    transition={{ duration: 0.2, delay: index * 0.07 }}
                     className="relative pl-8 md:pl-12"
                 >
                     {/* Timeline Dot */}
