@@ -8,10 +8,36 @@ export interface Project {
     liveLink?: string
     githubLink?: string
     image?: string
+    images?: string[]
     features: string[]
 }
 
 export const allProjects: Project[] = [
+    {
+        title: "MacroMade — Custom Shopify Theme",
+        slug: "macromade-shopify-theme",
+        description: "Custom Shopify theme for a performance meal-prep brand — featuring a box builder, subscription workflow, macro tracking, cart drawer, and GA4 ecommerce analytics.",
+        longDescription: "MacroMade is a fully custom Shopify Online Store 2.0 theme built for a performance-focused meal-prep brand. Rather than adapting a generic storefront, the entire experience is designed around the meal subscription journey: customers discover macro-tracked meals, filter by training goals and dietary needs, build a weekly meal box, and choose between weekly subscription and one-time purchase options.\n\nThe centrepiece is a custom box builder on the product page — customers select a box size, pick meals, and track their progress through a sticky summary bar showing meal count, macros, pricing, and savings. Weekly subscription mode stores selections in a client-side BoxSession using localStorage, then adds the weekly box product with ReCharge selling plan data at checkout. One-time purchase mode uses the Shopify AJAX Cart API directly.\n\nThe theme also includes a filterable menu page (goal, diet, protein, calories, chef's picks), a custom cart drawer with macro totals and checkout gating, GA4 ecommerce event tracking, and a fully configurable theme editor schema for brand, pricing, analytics, and social settings.",
+        tags: ["Shopify", "Liquid", "JavaScript", "CSS3", "AJAX Cart API", "GA4", "ReCharge"],
+        link: "/projects/macromade-shopify-theme",
+        liveLink: "https://macromade-3.myshopify.com",
+        githubLink: "https://github.com/SteevThomas1998",
+        image: "/images/projects/macromade-home.png",
+        images: [
+            "/images/projects/macromade-home.png",
+            "/images/projects/macromade-box.png",
+        ],
+        features: [
+            "Custom box builder — select size, pick meals, track macros and progress",
+            "Weekly subscription mode with client-side BoxSession and ReCharge selling plan support",
+            "One-time purchase mode via Shopify AJAX Cart API",
+            "Cart drawer with meal progress, macro totals, and checkout gating",
+            "Filterable menu page by goal, diet, protein, calories, and chef's picks",
+            "GA4 ecommerce tracking — view_item, add_to_cart, begin_checkout, purchase",
+            "Shopify Online Store 2.0 — modular Liquid sections and JSON templates",
+            "Theme editor schema for brand, pricing, analytics, and social config"
+        ]
+    },
     {
         title: "Stealeen — AI Job Application Tracker",
         slug: "stealeen-job-tracker",

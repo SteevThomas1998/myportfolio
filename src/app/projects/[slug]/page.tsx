@@ -48,7 +48,33 @@ export default function ProjectDetailPage({ params }: Props) {
 
             <div className="grid gap-10 lg:grid-cols-[2fr_1fr]">
                 <div className="space-y-8">
-                    {project.image && (
+                    {project.images && project.images.length > 1 ? (
+                        <div className="space-y-3">
+                            <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-border shadow-lg">
+                                <Image
+                                    src={project.images[0]}
+                                    alt={`${project.title} — screenshot 1`}
+                                    fill
+                                    className="object-cover object-top"
+                                    sizes="(max-width: 1024px) 100vw, 66vw"
+                                    priority
+                                />
+                            </div>
+                            <div className="grid grid-cols-2 gap-3">
+                                {project.images.slice(1).map((img, i) => (
+                                    <div key={i} className="relative w-full aspect-video rounded-lg overflow-hidden border border-border shadow-sm">
+                                        <Image
+                                            src={img}
+                                            alt={`${project.title} — screenshot ${i + 2}`}
+                                            fill
+                                            className="object-cover object-top"
+                                            sizes="(max-width: 1024px) 50vw, 33vw"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ) : project.image ? (
                         <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-border shadow-lg">
                             <Image
                                 src={project.image}
@@ -59,7 +85,7 @@ export default function ProjectDetailPage({ params }: Props) {
                                 priority
                             />
                         </div>
-                    )}
+                    ) : null}
 
                     <div className="space-y-4">
                         <h1 className="text-4xl font-bold tracking-tight md:text-5xl">{project.title}</h1>
