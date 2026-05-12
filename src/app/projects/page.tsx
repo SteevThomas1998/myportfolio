@@ -8,22 +8,24 @@ import { Search, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { allProjects } from "@/lib/projects"
 
-// Extract unique tags for the filter list
+const currentProjects = allProjects.filter(p => !p.isPreviousWork)
+const previousProjects = allProjects.filter(p => p.isPreviousWork)
 const allTags = Array.from(new Set(allProjects.flatMap(p => p.tags))).sort()
 
 export default function ProjectsPage() {
     const [searchQuery, setSearchQuery] = useState("")
     const [selectedTags, setSelectedTags] = useState<string[]>([])
 
-    const filteredProjects = allProjects.filter(project => {
+    const filterProject = (project: typeof allProjects[0]) => {
         const matchesSearch = project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
             project.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
-
         const matchesTags = selectedTags.length === 0 || selectedTags.every(tag => project.tags.includes(tag))
-
         return matchesSearch && matchesTags
-    })
+    }
+
+    const filteredCurrent = currentProjects.filter(filterProject)
+    const filteredPrevious = previousProjects.filter(filterProject)
 
     const toggleTag = (tag: string) => {
         setSelectedTags(prev =>
@@ -45,7 +47,6 @@ export default function ProjectsPage() {
             </div>
 
             <div className="space-y-6 mb-12">
-                {/* Search and Filter Controls */}
                 <div className="flex flex-col md:flex-row gap-4 items-center">
                     <div className="relative w-full md:w-96">
                         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -68,7 +69,6 @@ export default function ProjectsPage() {
                     )}
                 </div>
 
-                {/* Tag Cloud */}
                 <div className="flex flex-wrap gap-2">
                     {allTags.map(tag => (
                         <Badge
@@ -83,11 +83,11 @@ export default function ProjectsPage() {
                 </div>
             </div>
 
-            {/* Projects Grid */}
+            {/* Current Projects Grid */}
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 <AnimatePresence>
-                    {filteredProjects.length > 0 ? (
-                        filteredProjects.map((project) => (
+                    {filteredCurrent.length > 0 ? (
+                        filteredCurrent.map((project) => (
                             <motion.div
                                 key={project.title}
                                 layout
@@ -116,6 +116,34 @@ export default function ProjectsPage() {
                     )}
                 </AnimatePresence>
             </div>
+
+            {/* Previous Work Section */}
+            {filteredPrevious.length > 0 && (
+                <div className="mt-20">
+                    <div className="mb-8 space-y-2">
+                        <h2 className="text-2xl font-bold tracking-tight">Previous Work</h2>
+                        <p className="text-muted-foreground">
+                            Earlier client projects built with WordPress, Elementor, and Plesk.
+                        </p>
+                    </div>
+                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                        <AnimatePresence>
+                            {filteredPrevious.map((project) => (
+                                <motion.div
+                                    key={project.title}
+                                    layout
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.9 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <ProjectCard {...project} />
+                                </motion.div>
+                            ))}
+                        </AnimatePresence>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

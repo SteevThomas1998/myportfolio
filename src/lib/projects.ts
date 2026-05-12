@@ -11,6 +11,7 @@ export interface Project {
     images?: string[]
     features: string[]
     inDevelopment?: boolean
+    isPreviousWork?: boolean
 }
 
 export const allProjects: Project[] = [
@@ -133,6 +134,66 @@ export const allProjects: Project[] = [
             "Dark / light mode with system detection",
             "Interactive tech stack radar chart (Recharts)",
             "Contact form with Resend email integration"
+        ]
+    },
+    {
+        title: "Morth Mariam Knanaya Church — Philadelphia",
+        slug: "morth-mariam-church",
+        description: "Church website for Morth Mariam Knanaya Church, Philadelphia — built with WordPress and Elementor, hosted on Plesk.",
+        longDescription: "A full church website built for Morth Mariam Knanaya Church in Philadelphia, PA. The site includes pages for About, QURBONO (liturgy), Gallery, News & Events, and Contact. Built with WordPress using the Elementor page builder and various plugins, hosted on Plesk.",
+        tags: ["WordPress", "Elementor", "PHP", "Plesk"],
+        link: "/projects/morth-mariam-church",
+        liveLink: "https://morthmariamknanayachurch.org",
+        image: "/images/projects/morth-mariam.png",
+        images: ["/images/projects/morth-mariam.png"],
+        isPreviousWork: true,
+        features: [
+            "Multi-page church website with About, Gallery, News & Events",
+            "QURBONO (liturgy) section with structured content",
+            "Photo gallery for church events and community",
+            "Contact and enquiry page",
+            "Built with WordPress + Elementor page builder",
+            "Hosted and managed on Plesk"
+        ]
+    },
+    {
+        title: "Bethel Prayer Fellowship — Stevenage, UK",
+        slug: "bethel-prayer-fellowship",
+        description: "Church website for Bethel Prayer Fellowship Stevenage — built with WordPress and Elementor, hosted on Plesk.",
+        longDescription: "A church website built for Bethel Prayer Fellowship in Stevenage, UK. The site covers Home, About, Events, Gallery, and Connect sections, providing the congregation with a central hub for updates and community engagement. Built with WordPress using the Elementor page builder and plugins, hosted on Plesk.",
+        tags: ["WordPress", "Elementor", "PHP", "Plesk"],
+        link: "/projects/bethel-prayer-fellowship",
+        liveLink: "https://bethelpfstevenage.org",
+        image: "/images/projects/bethel-pf.png",
+        images: ["/images/projects/bethel-pf.png"],
+        isPreviousWork: true,
+        features: [
+            "Multi-page church website with About, Events, Gallery, Connect",
+            "Events listing for congregation updates",
+            "Community photo gallery",
+            "Contact and connect page",
+            "Built with WordPress + Elementor page builder",
+            "Hosted and managed on Plesk"
+        ]
+    },
+    {
+        title: "Hadaeq Est. Al-Kharj — Corporate Website",
+        slug: "hadaeq-al-kharj",
+        description: "Corporate website for Hadaeq Est. Al-Kharj, a construction and facilities management company in Saudi Arabia — built with WordPress and Elementor.",
+        longDescription: "A corporate website built for Hadaeq Est. Al-Kharj, a construction and facilities management establishment based in Al-Kharj, Saudi Arabia. The site presents the company's services, quality management practices, and completed projects, along with a downloadable company profile. Built with WordPress using the Elementor page builder and plugins, hosted on Plesk.",
+        tags: ["WordPress", "Elementor", "PHP", "Plesk"],
+        link: "/projects/hadaeq-al-kharj",
+        liveLink: "https://alhadaeq.com",
+        image: "/images/projects/alhadaeq.png",
+        images: ["/images/projects/alhadaeq.png"],
+        isPreviousWork: true,
+        features: [
+            "Corporate site with About, Quality Management, Projects, Contact",
+            "Company profile download (PDF)",
+            "Project portfolio showcase",
+            "Quality management standards section",
+            "Built with WordPress + Elementor page builder",
+            "Hosted and managed on Plesk"
         ]
     }
 ]
