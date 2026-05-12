@@ -10,6 +10,7 @@ export interface Project {
     image?: string
     images?: string[]
     features: string[]
+    inDevelopment?: boolean
 }
 
 export const allProjects: Project[] = [
@@ -74,6 +75,46 @@ export const allProjects: Project[] = [
             "Robust state management across sessions",
             "Production-ready code quality",
             "Zero-install — runs entirely in the browser"
+        ]
+    },
+    {
+        title: "Kerelite — Kerala Catering Website",
+        slug: "kerelite",
+        description: "Brand website for a Kerala catering company — showcasing authentic dishes, event gallery, and catering services for weddings, backwaters, and boardrooms.",
+        longDescription: "Kerelite is a brand website built for an authentic Kerala catering company. The site showcases the brand's identity around traditional dishes — tadka on banana leaf, slow-dum biryani, and karimeen polichathu — served at weddings, corporate events, and celebrations. Built with vanilla HTML, CSS, and JavaScript on a Node.js/Express backend, the site features a curated menu display, photo gallery, service overview, and contact enquiry flow. Deployed on Railway and currently in active development.",
+        tags: ["HTML", "CSS", "JavaScript", "Node.js", "Express.js"],
+        link: "/projects/kerelite",
+        liveLink: "https://kerelite-production.up.railway.app",
+        image: "/images/projects/kerelite.png",
+        images: ["/images/projects/kerelite.png"],
+        inDevelopment: true,
+        features: [
+            "Brand identity design centred on authentic Kerala cuisine",
+            "Curated menu showcase with dish descriptions",
+            "Event and catering services overview",
+            "Photo gallery of dishes and events",
+            "Contact and enquiry flow",
+            "Node.js/Express backend deployed on Railway"
+        ]
+    },
+    {
+        title: "Rehoboth Pentecostal Church — Website & Admin",
+        slug: "rehoboth-church",
+        description: "Full church website for Rehoboth Pentecostal Church Dublin, with a built-in admin panel for managing sermons, events, gallery, and content.",
+        longDescription: "Rehoboth is a full church website built for Rehoboth Pentecostal Church Dublin. The public-facing site includes pages for Home, About Us, Ministries, Sermons, Events, Gallery, and Contact. Behind the scenes, a custom admin panel allows church staff to manage all site content — including sermon uploads, event listings, and gallery images — without touching code. Built with vanilla HTML/CSS/JS on a Node.js/Express backend, the site is deployed on Railway and is currently in active development.",
+        tags: ["HTML", "CSS", "JavaScript", "Node.js", "Express.js"],
+        link: "/projects/rehoboth-church",
+        liveLink: "https://rehoboth-church-website-production.up.railway.app",
+        image: "/images/projects/rehoboth.png",
+        images: ["/images/projects/rehoboth.png"],
+        inDevelopment: true,
+        features: [
+            "Public site: Home, About, Ministries, Sermons, Events, Gallery, Contact",
+            "Custom admin panel for non-technical content management",
+            "Sermon upload and listing management",
+            "Event scheduling and announcements",
+            "Gallery management for photos",
+            "Node.js/Express backend deployed on Railway"
         ]
     },
     {

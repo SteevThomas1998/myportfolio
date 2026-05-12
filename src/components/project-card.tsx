@@ -12,9 +12,10 @@ interface ProjectCardProps {
     liveLink?: string
     githubLink?: string
     image?: string
+    inDevelopment?: boolean
 }
 
-export function ProjectCard({ title, description, tags, link, image }: ProjectCardProps) {
+export function ProjectCard({ title, description, tags, link, image, inDevelopment }: ProjectCardProps) {
     return (
         <Card className="group flex flex-col overflow-hidden border transition-all duration-300 hover:border-emerald-500/50 glow-emerald">
             <div className="relative aspect-video w-full overflow-hidden bg-gradient-to-br from-emerald-500/10 via-teal-400/5 to-emerald-600/10 dark:from-emerald-500/15 dark:via-teal-400/8 dark:to-emerald-600/15">
@@ -42,6 +43,13 @@ export function ProjectCard({ title, description, tags, link, image }: ProjectCa
                         >
                             <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
                         </svg>
+                    </div>
+                )}
+                {inDevelopment && (
+                    <div className="absolute top-2 left-2">
+                        <Badge className="bg-amber-500/90 text-white border-0 text-xs font-medium">
+                            In Development
+                        </Badge>
                     </div>
                 )}
             </div>

@@ -88,7 +88,14 @@ export default function ProjectDetailPage({ params }: Props) {
                     ) : null}
 
                     <div className="space-y-4">
-                        <h1 className="text-4xl font-bold tracking-tight md:text-5xl">{project.title}</h1>
+                        <div className="flex items-center gap-3 flex-wrap">
+                            <h1 className="text-4xl font-bold tracking-tight md:text-5xl">{project.title}</h1>
+                            {project.inDevelopment && (
+                                <Badge className="bg-amber-500/90 text-white border-0 text-sm font-medium h-fit">
+                                    In Development
+                                </Badge>
+                            )}
+                        </div>
                         <p className="text-xl text-muted-foreground leading-relaxed">
                             {project.description}
                         </p>
