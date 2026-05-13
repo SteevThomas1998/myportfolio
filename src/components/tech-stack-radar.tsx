@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, useInView, AnimatePresence } from "framer-motion"
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 
 const skills = [
     { name: "React",      value: 120, fullMark: 150 },
@@ -48,6 +48,14 @@ export function TechStackRadar({ hideHeader = false, className = "" }: TechStack
     const ref = useRef<HTMLDivElement>(null)
     const isInView = useInView(ref, { once: true })
     const [hovered, setHovered] = useState<number | null>(null)
+    const [isMobile, setIsMobile] = useState(false)
+
+    useEffect(() => {
+        setIsMobile(window.innerWidth < 768)
+    }, [])
+
+    // On mobile skip entrance animations — chart renders in final state immediately
+    const inView = isMobile || isInView
 
     const dp = dataPoints()
 
@@ -87,8 +95,8 @@ export function TechStackRadar({ hideHeader = false, className = "" }: TechStack
                             strokeOpacity={0.18}
                             strokeWidth={1}
                             style={{ transformOrigin: ORIGIN }}
-                            initial={{ scale: 0, opacity: 0 }}
-                            animate={isInView ? { scale: 1, opacity: 1 } : {}}
+                            initial={isMobile ? false : { scale: 0, opacity: 0 }}
+                            animate={inView ? { scale: 1, opacity: 1 } : {}}
                             transition={{ duration: 0.45, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
                         />
                     ))}
@@ -104,8 +112,8 @@ export function TechStackRadar({ hideHeader = false, className = "" }: TechStack
                                 strokeOpacity={0.18}
                                 strokeWidth={1}
                                 fill="none"
-                                initial={{ pathLength: 0, opacity: 0 }}
-                                animate={isInView ? { pathLength: 1, opacity: 1 } : {}}
+                                initial={isMobile ? false : { pathLength: 0, opacity: 0 }}
+                                animate={inView ? { pathLength: 1, opacity: 1 } : {}}
                                 transition={{ duration: 0.45, delay: 0.18 + i * 0.05, ease: "easeOut" }}
                             />
                         )
@@ -120,27 +128,29 @@ export function TechStackRadar({ hideHeader = false, className = "" }: TechStack
                         strokeWidth={2}
                         strokeLinejoin="round"
                         style={{ transformOrigin: ORIGIN }}
-                        initial={{ scale: 0 }}
-                        animate={isInView ? { scale: 1 } : {}}
+                        initial={isMobile ? false : { scale: 0 }}
+                        animate={inView ? { scale: 1 } : {}}
                         transition={{ type: "spring", stiffness: 120, damping: 14, delay: 0.52 }}
                     />
 
-                    {/* Pulse overlay — breathes continuously after entrance */}
-                    <motion.polygon
-                        points={dp}
-                        fill="hsl(var(--primary))"
-                        stroke="none"
-                        style={{ transformOrigin: ORIGIN }}
-                        initial={{ scale: 0, fillOpacity: 0 }}
-                        animate={isInView ? {
-                            scale: 1,
-                            fillOpacity: [0, 0.12, 0],
-                        } : {}}
-                        transition={{
-                            scale: { type: "spring", stiffness: 120, damping: 14, delay: 0.52 },
-                            fillOpacity: { duration: 2.8, delay: 1.2, repeat: Infinity, ease: "easeInOut" },
-                        }}
-                    />
+                    {/* Pulse overlay — desktop only, breathes continuously after entrance */}
+                    {!isMobile && (
+                        <motion.polygon
+                            points={dp}
+                            fill="hsl(var(--primary))"
+                            stroke="none"
+                            style={{ transformOrigin: ORIGIN }}
+                            initial={{ scale: 0, fillOpacity: 0 }}
+                            animate={inView ? {
+                                scale: 1,
+                                fillOpacity: [0, 0.12, 0],
+                            } : {}}
+                            transition={{
+                                scale: { type: "spring", stiffness: 120, damping: 14, delay: 0.52 },
+                                fillOpacity: { duration: 2.8, delay: 1.2, repeat: Infinity, ease: "easeInOut" },
+                            }}
+                        />
+                    )}
 
                     {/* Vertex dots + skill labels */}
                     {skills.map((skill, i) => {
@@ -182,8 +192,8 @@ export function TechStackRadar({ hideHeader = false, className = "" }: TechStack
                                     stroke="hsl(var(--background))"
                                     strokeWidth={2}
                                     style={{ transformOrigin: `${dataPt.x}px ${dataPt.y}px` }}
-                                    initial={{ scale: 0 }}
-                                    animate={isInView ? { scale: isHov ? 1.5 : 1 } : {}}
+                                    initial={isMobile ? false : { scale: 0 }}
+                                    animate={inView ? { scale: isHov ? 1.5 : 1 } : {}}
                                     transition={isHov
                                         ? { duration: 0.15 }
                                         : { type: "spring", stiffness: 380, damping: 14, delay: 0.65 + i * 0.07 }
@@ -198,8 +208,8 @@ export function TechStackRadar({ hideHeader = false, className = "" }: TechStack
                                     fontSize={12}
                                     fill={isHov ? "hsl(var(--primary))" : "hsl(var(--muted-foreground))"}
                                     fontWeight={isHov ? 600 : 400}
-                                    initial={{ opacity: 0 }}
-                                    animate={isInView ? { opacity: 1 } : {}}
+                                    initial={isMobile ? false : { opacity: 0 }}
+                                    animate={inView ? { opacity: 1 } : {}}
                                     transition={{ duration: 0.35, delay: 0.8 + i * 0.06 }}
                                 >
                                     {skill.name}
