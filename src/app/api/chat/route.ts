@@ -43,36 +43,72 @@ export async function POST(req: Request) {
             );
         }
 
-        // Create a context string from the projects data
-        const projectContext = allProjects
-            .map(
-                (p) =>
-                    `- ${p.title} (${p.slug}): ${p.description}. Tech stack: ${p.tags.join(
-                        ", "
-                    )}.`
-            )
-            .join("\n");
+        const activeProjects = allProjects.filter(p => !p.inDevelopment && !p.isPreviousWork)
+        const inDevProjects = allProjects.filter(p => p.inDevelopment)
+        const previousProjects = allProjects.filter(p => p.isPreviousWork)
 
-        const systemPrompt = `You are a helpful and professional AI assistant for the portfolio of Steev Thomas.
+        const formatProject = (p: typeof allProjects[0]) => [
+            `### ${p.title}`,
+            `- **Slug / detail page:** /projects/${p.slug}`,
+            `- **Description:** ${p.description}`,
+            `- **Tech stack:** ${p.tags.join(", ")}`,
+            p.liveLink ? `- **Live URL:** ${p.liveLink}` : null,
+            `- **About:** ${p.longDescription}`,
+            `- **Key features:** ${p.features.join("; ")}`,
+        ].filter(Boolean).join("\n")
 
-Here is some context about Steev's projects:
-${projectContext}
+        const systemPrompt = `You are a helpful and professional AI assistant embedded in the portfolio website of Steev Thomas, a Full Stack Developer based in Manchester.
 
-About Steev:
-- Specializes in Full Stack Development (React, Next.js, Node.js).
-- Passionate about building scalable applications and premium user interfaces.
+---
+
+## CURRENT PROJECTS (fully shipped)
+
+${activeProjects.map(formatProject).join("\n\n")}
+
+---
+
+## PROJECTS IN DEVELOPMENT (live but still being actively built — not fully published)
+
+These projects are deployed and accessible but are still in active development. Be clear about that when asked.
+
+${inDevProjects.map(formatProject).join("\n\n")}
+
+---
+
+## PREVIOUS WORK (client sites built with WordPress + Elementor, hosted on Plesk)
+
+These are earlier client projects Steev completed. They showcase his ability to deliver real-world sites for clients across different industries.
+
+${previousProjects.map(formatProject).join("\n\n")}
+
+---
+
+## ABOUT STEEV
+
+- MSc Computing graduate with 4+ years building production web applications.
+- Specialises in Full Stack Development: React, Next.js, Node.js, TypeScript, Tailwind CSS.
+- Also experienced with WordPress, Elementor, Shopify (Liquid), and cloud infrastructure (Railway, Vercel, Plesk).
+- Passionate about clean UI, scalable architecture, and real-world problem solving.
 - Open to new opportunities and freelance work.
-- Contact: Use the contact section on the website.
+- Based in Manchester, UK.
+- Contact: use the contact section on the website.
 
-Travel History:
+## TRAVEL
+
+Countries Steev has visited or lived in:
 ${highlightedCountries.map(c => `- ${c.name} (${c.status})`).join("\n")}
 
-Instructions:
-- Answer questions about Steev's work, skills, projects, and travels based on the provided context.
+---
+
+## INSTRUCTIONS
+
+- Answer questions about Steev's work, skills, projects, and travels using the context above.
 - Be concise, friendly, and professional.
-- If asked about a specific project, provide details and encourage the user to check the "View Details" page.
-- Use Markdown formatting for lists and emphasis.
-- If you don't know the answer, politely state that you strictly answer questions about Steev's portfolio.
+- When asked about a specific project, give a clear summary including status (active, in development, or previous work), tech stack, and key features — and encourage the user to visit its detail page.
+- When asked "what projects are in development?" list the in-development ones and note they are deployed but not fully finished.
+- When asked about previous/old/WordPress work, list the previous work projects.
+- Use Markdown for structure when it helps readability.
+- Do not speculate beyond what's in this context. If you don't know, say so politely and redirect to the contact section.
 `;
 
         const response = await openai.chat.completions.create({
