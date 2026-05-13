@@ -33,7 +33,7 @@ function Typewriter() {
     }, [displayed, deleting])
 
     return (
-        <span className="font-mono text-base md:text-xl font-bold mb-4 block bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">
+        <span className="font-mono text-xs sm:text-base md:text-xl font-bold mb-2 md:mb-4 block bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">
             {displayed}
             <motion.span
                 animate={{ opacity: [1, 0] }}
@@ -48,7 +48,7 @@ const headingWords = ["Building", "production", "web", "apps."]
 
 export function Hero() {
     return (
-        <section className="relative container grid lg:grid-cols-2 items-center gap-6 pb-8 pt-6 md:py-20 overflow-hidden">
+        <section className="relative container grid lg:grid-cols-2 items-center gap-4 md:gap-6 pb-6 pt-4 md:py-20 overflow-hidden">
 
             {/* Dot grid background */}
             <div
@@ -76,7 +76,7 @@ export function Hero() {
                 transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 4 }}
             />
 
-            <div className="relative flex flex-col items-start gap-4">
+            <div className="relative flex flex-col items-start gap-2 md:gap-4">
                 {/* Typewriter greeting */}
                 <motion.div
                     initial={{ opacity: 0 }}
@@ -87,7 +87,7 @@ export function Hero() {
                 </motion.div>
 
                 {/* Word-by-word heading */}
-                <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1]">
+                <h1 className="text-2xl font-extrabold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1]">
                     <span className="flex flex-wrap gap-x-3">
                         {headingWords.map((word, i) => (
                             <motion.span
@@ -122,7 +122,7 @@ export function Hero() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.2, delay: 0.25 }}
-                    className="max-w-[700px] text-lg text-muted-foreground sm:text-xl"
+                    className="max-w-[700px] text-sm text-muted-foreground sm:text-base md:text-xl"
                 >
                     MSc Computing graduate with 4+ years building production web applications across JavaScript frameworks, WordPress, and cloud infrastructure. Based in Manchester.
                 </motion.p>
@@ -131,15 +131,15 @@ export function Hero() {
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.2, delay: 0.35 }}
-                    className="flex gap-4"
+                    className="flex gap-3"
                 >
                     <Link href="/projects">
-                        <Button size="lg" className="rounded-full">
+                        <Button size="sm" className="rounded-full md:text-sm md:h-11 md:px-8">
                             View Projects
                         </Button>
                     </Link>
                     <Link href="/about">
-                        <Button variant="outline" size="lg" className="rounded-full border-emerald-500/40 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400">
+                        <Button variant="outline" size="sm" className="rounded-full md:text-sm md:h-11 md:px-8 border-emerald-500/40 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400">
                             About Me
                         </Button>
                     </Link>
@@ -149,7 +149,7 @@ export function Hero() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.2, delay: 0.45 }}
-                    className="flex items-center gap-2 mt-2"
+                    className="flex items-center gap-2 mt-0 md:mt-2"
                 >
                     <motion.div
                         animate={{ opacity: [0.5, 1, 0.5] }}
