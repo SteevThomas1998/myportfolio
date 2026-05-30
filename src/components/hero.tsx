@@ -114,7 +114,7 @@ export function Hero() {
                             ease: [0.22, 1, 0.36, 1],
                         }}
                     >
-                        Junior Software Developer
+                        Full Stack Web Developer
                     </motion.span>
                 </h1>
 
