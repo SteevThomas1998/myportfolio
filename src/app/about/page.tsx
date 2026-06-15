@@ -18,10 +18,9 @@ export default function AboutPage() {
                     <h1 className="text-4xl font-bold tracking-tight mb-4">About Me</h1>
                     <p className="text-xl text-muted-foreground max-w-3xl">
                         MSc Computing graduate and full-stack developer with 4+ years of hands-on experience building and maintaining
-                        production web applications across JavaScript frameworks, WordPress, and cloud infrastructure. Currently
-                        expanding into C#/.NET and SQL Server, with strong foundations in Git-based workflows, agile collaboration, and
-                        writing clean, maintainable code. Eager to grow within a structured development team and contribute to real-world
-                        software projects in a CI/CD environment.
+                        production web applications across JavaScript frameworks, WordPress, and cloud infrastructure. Currently working
+                        as an AI & Web Developer at NutreeLife Ltd, integrating intelligent features into health-tech products. Strong
+                        foundations in Git-based workflows, agile collaboration, and writing clean, maintainable code.
                     </p>
                 </div>
                 <CVDownloadButton />

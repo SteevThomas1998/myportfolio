@@ -5,6 +5,17 @@ import { Badge } from "@/components/ui/badge"
 
 const experienceData = [
     {
+        year: "Jun 2026 – Present",
+        title: "AI & Web Developer",
+        company: "NutreeLife Ltd · Ireland",
+        bullets: [
+            "Building and maintaining web applications with a focus on integrating AI-driven features into product workflows.",
+            "Developing intelligent tools and automation pipelines to support the company's health-tech platform.",
+            "Collaborating across design and product teams to deliver responsive, user-focused interfaces.",
+        ],
+        skills: ["AI Integration", "React", "Next.js", "Node.js", "REST APIs", "Git"]
+    },
+    {
         year: "Sep 2024 – Dec 2025",
         title: "E-Commerce Developer (Part-time)",
         company: "Ledivano Italia · Dublin, Ireland",
