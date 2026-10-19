@@ -16,7 +16,18 @@ const config: Config = {
 			},
 		},
 		extend: {
+			fontFamily: {
+				display: ['var(--font-display)', 'serif'],
+				serif: ['var(--font-serif)', 'Georgia', 'serif'],
+				mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
+			},
 			colors: {
+				reel: {
+					ink: 'rgb(var(--reel-ink) / <alpha-value>)',
+					bone: 'rgb(var(--reel-bone) / <alpha-value>)',
+					sodium: 'rgb(var(--reel-sodium) / <alpha-value>)',
+					page: 'rgb(var(--reel-page) / <alpha-value>)',
+				},
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				card: {

@@ -2,8 +2,7 @@
 
 import { useState } from "react"
 import { ProjectCard } from "@/components/project-card"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
+import { SceneHeader, SectionTitle } from "@/components/cinema/scene-header"
 import { Search, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { allProjects } from "@/lib/projects"
@@ -35,114 +34,103 @@ export default function ProjectsPage() {
         )
     }
 
-    return (
-        <div className="container py-10 min-h-screen">
-            <div className="flex flex-col items-start gap-4 md:flex-row md:justify-between md:gap-8 mb-8">
-                <div className="flex-1 space-y-4">
-                    <h1 className="inline-block font-bold text-4xl tracking-tight">Projects</h1>
-                    <p className="text-xl text-muted-foreground">
-                        A showcasing of my recent open source and commercial work.
-                    </p>
-                </div>
-            </div>
+    const grid = (projects: typeof allProjects, offset: number) => (
+        <div className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+            <AnimatePresence>
+                {projects.map((project, i) => (
+                    <motion.div
+                        key={project.title}
+                        layout
+                        initial={{ opacity: 0, y: 24 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.96 }}
+                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                        <ProjectCard {...project} index={offset + i} />
+                    </motion.div>
+                ))}
+            </AnimatePresence>
+        </div>
+    )
 
-            <div className="space-y-6 mb-12">
-                <div className="flex flex-col md:flex-row gap-4 items-center">
-                    <div className="relative w-full md:w-96">
-                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                        <Input
-                            placeholder="Search projects..."
-                            className="pl-9"
+    return (
+        <div className="overflow-x-clip pb-24">
+            <SceneHeader
+                kicker={`Filmography · ${allProjects.length} titles`}
+                title={
+                    <>
+                        Selected <span className="italic">work</span>
+                    </>
+                }
+                lede="Commercial builds, side projects and earlier client work, from Shopify themes to AI tools."
+            />
+
+            <div className="space-y-6 px-4 pb-14 sm:px-[6vw]">
+                <div className="flex flex-col gap-4 md:flex-row md:items-center">
+                    <label className="relative block w-full md:w-96">
+                        <span className="sr-only">Search projects</span>
+                        <Search className="absolute left-0 top-1/2 h-4 w-4 -translate-y-1/2 text-reel-bone/40" />
+                        <input
+                            placeholder="Search the filmography…"
+                            className="w-full border-b border-reel-bone/25 bg-transparent py-2 pl-7 font-serif text-lg text-reel-bone placeholder:text-reel-bone/35 focus:border-reel-sodium focus:outline-none"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
-                    </div>
-
+                    </label>
                     {selectedTags.length > 0 && (
-                        <Badge
-                            variant="destructive"
-                            className="cursor-pointer"
+                        <button
                             onClick={() => setSelectedTags([])}
+                            className="inline-flex items-center gap-1 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-reel-sodium hover:underline"
                         >
-                            Clear Filters <X className="ml-1 h-3 w-3" />
-                        </Badge>
+                            Clear filters <X className="h-3 w-3" />
+                        </button>
                     )}
                 </div>
-
                 <div className="flex flex-wrap gap-2">
-                    {allTags.map(tag => (
-                        <Badge
-                            key={tag}
-                            variant={selectedTags.includes(tag) ? "default" : "outline"}
-                            className="cursor-pointer hover:bg-primary/90 hover:text-primary-foreground transition-colors"
-                            onClick={() => toggleTag(tag)}
-                        >
-                            {tag}
-                        </Badge>
-                    ))}
-                </div>
-            </div>
-
-            {/* Current Projects Grid */}
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                <AnimatePresence>
-                    {filteredCurrent.length > 0 ? (
-                        filteredCurrent.map((project) => (
-                            <motion.div
-                                key={project.title}
-                                layout
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.9 }}
-                                transition={{ duration: 0.2 }}
-                            >
-                                <ProjectCard {...project} />
-                            </motion.div>
-                        ))
-                    ) : (
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            className="col-span-full text-center py-12"
-                        >
-                            <p className="text-muted-foreground text-lg">No projects found matching your criteria.</p>
+                    {allTags.map((tag) => {
+                        const on = selectedTags.includes(tag)
+                        return (
                             <button
-                                onClick={() => { setSearchQuery(""); setSelectedTags([]) }}
-                                className="text-primary hover:underline mt-2"
+                                key={tag}
+                                onClick={() => toggleTag(tag)}
+                                aria-pressed={on}
+                                className={`border px-3 py-2.5 font-mono sm:py-1 text-[10px] uppercase tracking-[0.15em] transition-colors ${
+                                    on
+                                        ? "border-reel-sodium bg-reel-sodium text-reel-ink"
+                                        : "border-reel-bone/15 text-reel-bone/60 hover:border-reel-sodium/60 hover:text-reel-bone"
+                                }`}
                             >
-                                Clear all filters
+                                {tag}
                             </button>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                        )
+                    })}
+                </div>
             </div>
 
-            {/* Previous Work Section */}
+            <section className="px-4 sm:px-[6vw]" aria-label="Current work">
+                {filteredCurrent.length > 0 ? (
+                    grid(filteredCurrent, 0)
+                ) : (
+                    <div className="py-16 text-center">
+                        <p className="font-display text-3xl italic text-reel-bone/70">Nothing in the archive matches that.</p>
+                        <button
+                            onClick={() => {
+                                setSearchQuery("")
+                                setSelectedTags([])
+                            }}
+                            className="mt-3 font-mono text-[11px] uppercase tracking-[0.25em] text-reel-sodium hover:underline"
+                        >
+                            Clear all filters
+                        </button>
+                    </div>
+                )}
+            </section>
+
             {filteredPrevious.length > 0 && (
-                <div className="mt-20">
-                    <div className="mb-8 space-y-2">
-                        <h2 className="text-2xl font-bold tracking-tight">Previous Work</h2>
-                        <p className="text-muted-foreground">
-                            Earlier client projects built with WordPress, Elementor, and Plesk.
-                        </p>
-                    </div>
-                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        <AnimatePresence>
-                            {filteredPrevious.map((project) => (
-                                <motion.div
-                                    key={project.title}
-                                    layout
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.9 }}
-                                    transition={{ duration: 0.2 }}
-                                >
-                                    <ProjectCard {...project} />
-                                </motion.div>
-                            ))}
-                        </AnimatePresence>
-                    </div>
-                </div>
+                <section className="px-4 pt-24 sm:px-[6vw]" aria-label="Previous work">
+                    <SectionTitle label="Archive · WordPress, Elementor & Plesk">Earlier works</SectionTitle>
+                    {grid(filteredPrevious, currentProjects.length)}
+                </section>
             )}
         </div>
     )

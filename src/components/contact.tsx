@@ -9,8 +9,9 @@ import { motion } from "framer-motion"
 import { Github, Linkedin, Mail } from "lucide-react"
 import Link from "next/link"
 import ReCAPTCHA from "react-google-recaptcha"
+import { useTheme } from "next-themes"
 
-export function Contact() {
+export function Contact({ hideHeader = false }: { hideHeader?: boolean }) {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -19,6 +20,7 @@ export function Contact() {
     const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
     const [captchaToken, setCaptchaToken] = useState<string | null>(null)
     const [errorMessage, setErrorMessage] = useState<string>("")
+    const { resolvedTheme } = useTheme()
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -63,7 +65,7 @@ export function Contact() {
     return (
         <section className="relative container py-12 md:py-24 lg:py-32 overflow-hidden">
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-transparent via-emerald-50/30 to-transparent dark:via-emerald-950/15 rounded-3xl" />
-            <motion.div
+            {!hideHeader && <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -79,7 +81,7 @@ export function Contact() {
                 <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
                     Have a project in mind or just want to say hi? I&apos;d love to hear from you.
                 </p>
-            </motion.div>
+            </motion.div>}
 
             <div className="grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
                 <motion.div
@@ -142,8 +144,9 @@ export function Contact() {
                                 <div className="flex justify-center">
                                     <ReCAPTCHA
                                         sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"} // Use dummy key for dev if missing
+                                        key={resolvedTheme}
                                         onChange={setCaptchaToken}
-                                        theme="dark"
+                                        theme={resolvedTheme === "light" ? "light" : "dark"}
                                     />
                                 </div>
 

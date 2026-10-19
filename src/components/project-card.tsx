@@ -1,83 +1,63 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import { reelArt } from "@/lib/reels"
 
 interface ProjectCardProps {
     title: string
+    slug: string
     description: string
     tags: string[]
     link: string
-    liveLink?: string
-    githubLink?: string
     image?: string
     inDevelopment?: boolean
+    index?: number
 }
 
-export function ProjectCard({ title, description, tags, link, image, inDevelopment }: ProjectCardProps) {
+export function ProjectCard({ title, slug, description, tags, link, image, inDevelopment, index }: ProjectCardProps) {
+    // Higgsfield key art when the project has a reel, otherwise the site screenshot
+    const art = reelArt(slug)
+    const src = art?.poster ?? image
+    const [name, subtitle] = title.split(" — ")
+
     return (
-        <Card className="group flex flex-col overflow-hidden border transition-all duration-300 hover:border-emerald-500/50 glow-emerald">
-            <div className="relative aspect-video w-full overflow-hidden bg-gradient-to-br from-emerald-500/10 via-teal-400/5 to-emerald-600/10 dark:from-emerald-500/15 dark:via-teal-400/8 dark:to-emerald-600/15">
-                {image ? (
-                    <Image
-                        src={image}
-                        alt={title}
-                        fill
-                        className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                ) : (
-                    <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-                        <svg
-                            className="h-12 w-12 text-emerald-500/30 dark:text-emerald-400/30"
-                            fill="none"
-                            height="24"
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
-                        </svg>
+        <Link href={link} className="group block h-full">
+            <article className="flex h-full flex-col">
+                <div className="bg-[rgb(var(--reel-film))] p-1.5">
+                    <div className="relative aspect-video w-full overflow-hidden bg-reel-bone/5">
+                        {src && (
+                            <Image
+                                src={src}
+                                alt={title}
+                                fill
+                                className={`transition-transform duration-700 ease-out group-hover:scale-105 ${art ? "object-cover" : "object-cover object-top"}`}
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            />
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                        {inDevelopment && (
+                            <span className="absolute left-3 top-3 border border-reel-sodium bg-black/50 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.25em] text-[#ff8a3d] backdrop-blur-sm">
+                                In production
+                            </span>
+                        )}
                     </div>
-                )}
-                {inDevelopment && (
-                    <div className="absolute top-2 left-2">
-                        <Badge className="bg-amber-500/90 text-white border-0 text-xs font-medium">
-                            In Development
-                        </Badge>
-                    </div>
-                )}
-            </div>
-            <CardHeader>
-                <CardTitle className="line-clamp-1 text-xl group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
-                    {title}
-                </CardTitle>
-                <CardDescription className="line-clamp-2 text-sm">{description}</CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1">
-                <div className="flex flex-wrap gap-2">
-                    {tags.map((tag) => (
-                        <Badge
-                            key={tag}
-                            className="font-normal bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800"
-                        >
-                            {tag}
-                        </Badge>
-                    ))}
                 </div>
-            </CardContent>
-            <CardFooter>
-                <Link href={link} className="w-full">
-                    <Button className="w-full transition-all duration-300 border-emerald-500/30 hover:border-emerald-500 hover:bg-emerald-500 hover:text-white dark:hover:bg-emerald-500 dark:hover:text-white" variant="outline">
-                        View Details
-                    </Button>
-                </Link>
-            </CardFooter>
-        </Card>
+                <div className="mt-4 flex flex-1 flex-col">
+                    {index !== undefined && (
+                        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-reel-sodium">
+                            No. {String(index + 1).padStart(2, "0")}
+                            {art && <span className="text-reel-bone/45"> · Reel {art.number}</span>}
+                        </p>
+                    )}
+                    <h3 className="mt-1 font-display text-3xl leading-tight text-reel-bone transition-colors group-hover:text-reel-sodium">
+                        {name}
+                    </h3>
+                    {subtitle && <p className="font-serif italic text-reel-bone/55">{subtitle}</p>}
+                    <p className="mt-3 line-clamp-3 font-serif text-reel-bone/70">{description}</p>
+                    <p className="mt-auto pt-4 font-mono text-[10px] uppercase tracking-[0.2em] text-reel-bone/45">
+                        {tags.slice(0, 5).join(" · ")}
+                    </p>
+                </div>
+            </article>
+        </Link>
     )
 }

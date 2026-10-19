@@ -78,4 +78,150 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  *,
+  *::before,
+  *::after {
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+    transition-timing-function: ease;
+    transition-duration: 0.5s;
+  }
+}
+
+/* ── Cinema (home page) ─────────────────────────────────────────── */
+/* Daybreak (light) and dusk (dark). "ink" is the surface, "bone" the text,
+   "page" is always the page surface even inside forced-night scenes. */
+:root {
+  --reel-ink: 244 238 227;
+  --reel-bone: 28 22 18;
+  --reel-sodium: 190 78 18;
+  --reel-page: 244 238 227;
+  --reel-film: 22 20 18;
+  --reel-grain-blend: multiply;
+  --reel-grain-opacity: 0.07;
+  --reel-vignette: 0.45;
+}
+.dark {
+  --reel-ink: 7 8 12;
+  --reel-bone: 239 231 218;
+  --reel-sodium: 255 138 61;
+  --reel-page: 7 8 12;
+  --reel-film: 13 14 19;
+  --reel-grain-blend: overlay;
+  --reel-grain-opacity: 0.09;
+  --reel-vignette: 0.85;
+}
+/* Scenes shot at night stay at night in both themes */
+.reel-night {
+  --reel-ink: 7 8 12;
+  --reel-bone: 239 231 218;
+  --reel-sodium: 255 138 61;
+  --reel-vignette: 0.85;
+}
+
+@layer components {
+  .cinema {
+    background: rgb(var(--reel-ink));
+    color: rgb(var(--reel-bone));
+  }
+  .cinema ::selection {
+    background: rgb(var(--reel-sodium));
+    color: rgb(var(--reel-ink));
+  }
+
+  .film-grain {
+    pointer-events: none;
+    position: fixed;
+    inset: -50%;
+    z-index: 60;
+    opacity: var(--reel-grain-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grain 0.9s steps(6) infinite;
+    mix-blend-mode: var(--reel-grain-blend);
+  }
+  @keyframes grain {
+    0% { transform: translate(0, 0); }
+    20% { transform: translate(-3%, 2%); }
+    40% { transform: translate(2%, -4%); }
+    60% { transform: translate(-4%, -1%); }
+    80% { transform: translate(3%, 3%); }
+    100% { transform: translate(0, 0); }
+  }
+
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(var(--reel-bone) / 0.2);
+  }
+  .vignette {
+    background: radial-gradient(ellipse at center, transparent 45%, rgb(var(--reel-ink) / var(--reel-vignette)) 100%);
+  }
+  .sprockets {
+    background-color: rgb(var(--reel-film) / 1);
+    background-image: radial-gradient(circle at center, rgb(var(--reel-page)) 0 3.5px, transparent 4px);
+    background-size: 100% 22px;
+  }
+
+  /* Hero plates swap between daybreak and dusk with the theme */
+  .plate-hero { background-image: url(/cinema/dawn/hero-plate.webp); }
+  .plate-sky { background-image: url(/cinema/dawn/layer-sky.webp); }
+  .plate-skyline { background-image: url(/cinema/dawn/layer-skyline.webp); }
+  .plate-roof { background-image: url(/cinema/dawn/layer-roof.webp); }
+  .dark .plate-hero { background-image: url(/cinema/hero-plate.webp); }
+  .dark .plate-sky { background-image: url(/cinema/layer-sky.webp); }
+  .dark .plate-skyline { background-image: url(/cinema/layer-skyline.webp); }
+  .dark .plate-roof { background-image: url(/cinema/layer-roof.webp); }
+  .plate-portrait { background-image: url(/cinema/portrait/dawn.webp); }
+  .dark .plate-portrait { background-image: url(/cinema/portrait/dusk.webp); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .film-grain { animation: none; }
+  }
+}
+
+/* shadcn tokens inside the cinema */
+.cinema {
+  --background: 38 45% 92%;
+  --card: 38 40% 95%;
+  --popover: 38 40% 95%;
+  --foreground: 24 22% 9%;
+  --card-foreground: 24 22% 9%;
+  --muted-foreground: 24 10% 38%;
+  --primary: 22 83% 41%;
+  --primary-foreground: 38 45% 95%;
+  --ring: 22 83% 41%;
+  --border: 30 18% 80%;
+  --input: 30 18% 78%;
+}
+.dark .cinema {
+  --background: 228 26% 4%;
+  --card: 228 18% 7%;
+  --popover: 228 18% 7%;
+  --foreground: 0 0% 98%;
+  --card-foreground: 0 0% 98%;
+  --muted-foreground: 240 5% 64.9%;
+  --primary: 24 100% 62%;
+  --primary-foreground: 228 26% 4%;
+  --ring: 24 100% 62%;
+  --border: 228 10% 16%;
+  --input: 228 10% 18%;
+}
+
+/* Long-form text (blog posts) in the cinema palette, same in both themes */
+.cinema .prose {
+  --tw-prose-body: rgb(var(--reel-bone) / 0.78);
+  --tw-prose-headings: rgb(var(--reel-bone));
+  --tw-prose-lead: rgb(var(--reel-bone) / 0.7);
+  --tw-prose-links: rgb(var(--reel-sodium));
+  --tw-prose-bold: rgb(var(--reel-bone));
+  --tw-prose-counters: rgb(var(--reel-sodium));
+  --tw-prose-bullets: rgb(var(--reel-sodium));
+  --tw-prose-hr: rgb(var(--reel-bone) / 0.15);
+  --tw-prose-quotes: rgb(var(--reel-bone));
+  --tw-prose-quote-borders: rgb(var(--reel-sodium));
+  --tw-prose-captions: rgb(var(--reel-bone) / 0.5);
+  --tw-prose-code: rgb(var(--reel-sodium));
+  --tw-prose-pre-code: rgb(239 231 218);
+  --tw-prose-pre-bg: rgb(var(--reel-film));
+  --tw-prose-th-borders: rgb(var(--reel-bone) / 0.2);
+  --tw-prose-td-borders: rgb(var(--reel-bone) / 0.1);
 }

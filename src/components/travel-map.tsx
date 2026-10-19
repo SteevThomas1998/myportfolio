@@ -2,53 +2,49 @@
 
 import React from "react"
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps"
-import { useTheme } from "next-themes"
 import { highlightedCountries } from "@/lib/travel-data"
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json"
 
+// Colours come from the cinema theme variables, so the map follows light/dark on its own
+const fills = {
+    visited: "rgb(var(--reel-sodium))",
+    next: "rgb(var(--reel-bone) / 0.35)",
+    none: "rgb(var(--reel-bone) / 0.08)",
+}
+
 export function TravelMap() {
-    const { theme } = useTheme()
-
-    // Adjust default fill based on theme
-    const defaultFill = theme === "dark" ? "#27272a" : "#e5e7eb" // zinc-800 : gray-200
-    const strokeColor = theme === "dark" ? "#52525b" : "#d4d4d8" // zinc-600 : zinc-300
-
     return (
-        <div className="w-full h-[300px] md:h-[500px] bg-muted/20 rounded-xl overflow-hidden border border-border">
+        <div className="relative h-[300px] w-full overflow-hidden border border-reel-bone/10 bg-reel-bone/[0.03] md:h-[500px]">
             <ComposableMap projection="geoMercator" projectionConfig={{ scale: 120 }}>
                 <ZoomableGroup center={[20, 20]} zoom={1.2}>
                     <Geographies geography={geoUrl}>
                         {({ geographies }) =>
                             geographies.map((geo) => {
-                                const countryName = geo.properties.name
-                                const highlight = highlightedCountries.find(c => c.name === countryName)
+                                const highlight = highlightedCountries.find((c) => c.name === geo.properties.name)
+                                const fill = highlight ? fills[highlight.status as keyof typeof fills] : fills.none
+                                const base = { fill, stroke: "rgb(var(--reel-ink))", strokeWidth: 0.5, outline: "none" }
 
                                 return (
                                     <Geography
                                         key={geo.rsmKey}
                                         geography={geo}
-                                        fill={highlight ? highlight.color : defaultFill}
-                                        stroke={strokeColor}
-                                        strokeWidth={0.5}
                                         style={{
-                                            default: { outline: "none", transition: "all 250ms" },
-                                            hover: { fill: highlight ? highlight.color : quote(theme === "dark" ? "#3f3f46" : "#d1d5db"), outline: "none" },
-                                            pressed: { outline: "none" },
+                                            default: base,
+                                            hover: { ...base, fill: highlight ? fill : "rgb(var(--reel-bone) / 0.16)" },
+                                            pressed: base,
                                         }}
                                     />
                                 )
                             })
                         }
                     </Geographies>
-
-                    {/* Markers could be added here for specific cities if needed */}
                 </ZoomableGroup>
             </ComposableMap>
+            <div className="absolute bottom-3 left-3 flex gap-4 font-mono text-[10px] uppercase tracking-[0.25em] text-reel-bone/60">
+                <span className="flex items-center gap-2"><span className="h-2 w-2 bg-reel-sodium" />Shot</span>
+                <span className="flex items-center gap-2"><span className="h-2 w-2 bg-reel-bone/35" />Storyboarded</span>
+            </div>
         </div>
     )
-}
-
-function quote(str: string) {
-    return str
 }
