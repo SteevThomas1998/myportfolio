@@ -14,25 +14,30 @@ const credits: { role: string; names: string[] }[] = [
     { role: "Filmed on location in", names: ["Manchester, United Kingdom"] },
 ]
 
-/** Skills presented as end credits, rolling with the scroll. */
+/**
+ * Skills presented as end credits, rolling with the scroll. The roll stops
+ * with "Fin." centred and holds there before the contact section follows.
+ */
 export function CreditsRoll() {
     const ref = useRef<HTMLElement>(null)
     const listRef = useRef<HTMLDivElement>(null)
+    const finRef = useRef<HTMLDivElement>(null)
     const [dist, setDist] = useState({ from: 0, to: 0 })
     const reduce = useReducedMotion()
     const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] })
 
     useLayoutEffect(() => {
         const measure = () => {
-            const h = listRef.current?.offsetHeight ?? 0
-            setDist({ from: window.innerHeight * 0.85, to: -h + window.innerHeight * 0.15 })
+            const fin = finRef.current
+            const finCentre = fin ? fin.offsetTop + fin.offsetHeight / 2 : listRef.current?.offsetHeight ?? 0
+            setDist({ from: window.innerHeight * 0.85, to: window.innerHeight / 2 - finCentre })
         }
         measure()
         window.addEventListener("resize", measure)
         return () => window.removeEventListener("resize", measure)
     }, [])
 
-    const y = useTransform(p, [0, 1], [dist.from, dist.to])
+    const y = useTransform(p, [0, 0.88, 1], [dist.from, dist.to, dist.to])
 
     return (
         <section ref={ref} className={reduce ? "relative py-24" : "relative h-[260vh]"} aria-label="Skills credits">
@@ -72,6 +77,12 @@ export function CreditsRoll() {
                             </div>
                         </div>
                     ))}
+                    <div ref={finRef} className="pt-[20vh]">
+                        <p className="font-display text-[clamp(4rem,14vw,12rem)] italic leading-none text-reel-bone">Fin.</p>
+                        <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.4em] text-reel-sodium sm:text-xs">
+                            Or the opening scene of yours
+                        </p>
+                    </div>
                 </motion.div>
             </div>
         </section>

@@ -98,7 +98,8 @@ export function DeskSequence() {
         requestAnimationFrame(() => draw(index))
     })
 
-    const fadeIn = useTransform(p, [0, 0.06], [1, 0])
+    // Pinned before the opening title lets go, so the loft dissolves in over the city
+    const enter = useTransform(p, [0, 0.12], [0, 1])
     const glow = useTransform(p, [0.85, 1], [0, 1])
     const timecode = useTransform(p, (v) => {
         const total = Math.round(v * 5 * 24)
@@ -108,8 +109,9 @@ export function DeskSequence() {
     })
 
     return (
-        <section ref={ref} className="reel-night relative h-[320vh] bg-reel-ink" aria-label="Into the work">
-            <div className="sticky top-0 h-[100svh] overflow-hidden">
+        // -mt overlaps the last 30vh of the opening title's pinned run (see OpeningTitle)
+        <section ref={ref} className="reel-night relative -mt-[130vh] h-[320vh]" aria-label="Into the work">
+            <motion.div style={{ opacity: enter }} className="sticky top-0 h-[100svh] overflow-hidden bg-reel-ink">
                 <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{ backgroundImage: "url(/cinema/desk.webp)", opacity: ready && !reduce ? 0 : 1 }}
@@ -128,8 +130,7 @@ export function DeskSequence() {
                 </div>
 
                 <motion.div style={{ opacity: glow }} className="pointer-events-none absolute inset-0 bg-reel-page" />
-                <motion.div style={{ opacity: fadeIn }} className="pointer-events-none absolute inset-0 bg-reel-page" />
-            </div>
+            </motion.div>
         </section>
     )
 }

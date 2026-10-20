@@ -35,10 +35,11 @@ export function OpeningTitle() {
     const reduce = useReducedMotion()
     const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] })
     const { resolvedTheme } = useTheme()
-    const [clip, setClip] = useState<string | null>(null)
-    useEffect(() => {
-        if (resolvedTheme) setClip(resolvedTheme === "dark" ? "/cinema/hero-loop" : "/cinema/dawn/hero-loop")
-    }, [resolvedTheme])
+    // Derived during render (not in an effect) so a theme cut swaps the footage
+    // in the same frame as the plates.
+    const [mounted, setMounted] = useState(false)
+    useEffect(() => setMounted(true), [])
+    const clip = mounted && resolvedTheme ? (resolvedTheme === "dark" ? "/cinema/hero-loop" : "/cinema/dawn/hero-loop") : null
 
     const videoOpacity = useTransform(p, [0.12, 0.4], [1, 0])
     const videoScale = useTransform(p, [0, 0.4], [1, 1.18])
@@ -50,10 +51,11 @@ export function OpeningTitle() {
     const titleTracking = useTransform(p, [0, 0.6], ["-0.04em", "0.06em"])
     const titleOpacity = useTransform(p, [0.6, 0.85], [1, 0.25])
     const slateOpacity = useTransform(p, [0, 0.12], [1, 0])
-    const taglineOpacity = useTransform(p, [0.62, 0.78, 0.92, 1], [0, 1, 1, 0])
-    const taglineY = useTransform(p, [0.62, 0.78], [30, 0])
+    // Tagline lands and clears before the loft dissolves in over the last
+    // sixth of the run (DeskSequence overlaps this section)
+    const taglineOpacity = useTransform(p, [0.55, 0.66, 0.78, 0.86], [0, 1, 1, 0])
+    const taglineY = useTransform(p, [0.55, 0.66], [30, 0])
     const bars = useTransform(p, [0, 0.5], ["0vh", "8vh"])
-    const fade = useTransform(p, [0.9, 1], [0, 1])
 
     return (
         <section ref={ref} className="relative h-[280vh]" aria-label="Opening title">
@@ -114,7 +116,7 @@ export function OpeningTitle() {
                 {/* Slate */}
                 <motion.div
                     style={{ opacity: slateOpacity }}
-                    className="absolute inset-x-4 bottom-8 flex flex-col gap-6 font-mono text-[10px] uppercase tracking-[0.3em] text-reel-bone/70 sm:inset-x-[6vw] sm:bottom-12 sm:flex-row sm:items-end sm:justify-between sm:text-xs"
+                    className="absolute inset-x-4 bottom-20 flex flex-col gap-6 font-mono text-[10px] uppercase tracking-[0.3em] text-reel-bone [text-shadow:0_0_2px_rgb(var(--reel-ink)),0_0_14px_rgb(var(--reel-ink)),0_0_28px_rgb(var(--reel-ink))] sm:bottom-12 sm:left-[6vw] sm:right-[max(6vw,13rem)] sm:flex-row sm:items-end sm:justify-between sm:text-xs"
                 >
                     <motion.div
                         initial={{ opacity: 0, y: 12 }}
@@ -122,7 +124,7 @@ export function OpeningTitle() {
                         transition={{ delay: 1.4, duration: 0.8 }}
                         className="max-w-md space-y-3"
                     >
-                        <p><span className="text-reel-sodium">Sc. 01</span> — Manchester, dusk</p>
+                        <p><span className="text-reel-sodium">Sc. 01</span> — Manchester, {mounted && resolvedTheme === "light" ? "daybreak" : "dusk"}</p>
                         <p className="font-serif text-base normal-case tracking-normal text-reel-bone/85 sm:text-lg">
                             Full Stack Developer. MSc Computing, four years shipping production web apps across
                             JavaScript frameworks, Shopify, WordPress and the cloud.
@@ -153,10 +155,9 @@ export function OpeningTitle() {
                     Built in Manchester.{" "}<span className="underline decoration-reel-sodium decoration-2 underline-offset-[0.2em] dark:text-reel-sodium dark:no-underline">Shipped everywhere.</span>
                 </motion.p>
 
-                {/* Letterbox + fade to black */}
+                {/* Letterbox */}
                 <motion.div style={{ height: bars }} className="absolute inset-x-0 top-0 bg-reel-ink" />
                 <motion.div style={{ height: bars }} className="absolute inset-x-0 bottom-0 bg-reel-ink" />
-                <motion.div style={{ opacity: fade }} className="pointer-events-none absolute inset-0 bg-reel-ink" />
             </div>
         </section>
     )

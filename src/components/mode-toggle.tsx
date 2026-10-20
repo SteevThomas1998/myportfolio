@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { useTheme } from "next-themes"
+import { switchTheme, toggleOrigin } from "@/lib/theme-transition"
 import "./mode-toggle.css"
 
 export function ModeToggle() {
@@ -20,7 +21,7 @@ export function ModeToggle() {
             className="theme-toggle"
             aria-pressed={isDark}
             title="Toggle Dark Mode"
-            onClick={() => setTheme(isDark ? "light" : "dark")}
+            onClick={(e) => switchTheme(isDark ? "light" : "dark", setTheme, toggleOrigin(e.currentTarget))}
         >
             <span className="sr-only">Toggle theme</span>
             <span className="tt-content">

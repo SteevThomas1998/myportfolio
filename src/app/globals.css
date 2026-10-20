@@ -178,6 +178,48 @@
   }
 }
 
+/* ── Day/night cut ──────────────────────────────────────────────── */
+/* switchTheme() opens the new scene through a soft iris from the toggle.
+   Colour tweens are held during the cut so the new frame is already settled;
+   the toggle keeps its own sun/moon animation. */
+@property --iris {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+html[data-theme-cut] *:not(.theme-toggle, .theme-toggle *),
+html[data-theme-cut] *:not(.theme-toggle, .theme-toggle *)::before,
+html[data-theme-cut] *:not(.theme-toggle, .theme-toggle *)::after {
+  transition: none !important;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html[data-theme-cut]::view-transition-new(root) {
+  -webkit-mask-image: radial-gradient(circle at var(--iris-x) var(--iris-y), #000 calc(var(--iris) - 120px), transparent var(--iris));
+  mask-image: radial-gradient(circle at var(--iris-x) var(--iris-y), #000 calc(var(--iris) - 120px), transparent var(--iris));
+  animation: iris-open 1.2s cubic-bezier(0.7, 0, 0.2, 1) both;
+}
+
+/* The outgoing scene settles back as the light changes */
+html[data-theme-cut]::view-transition-old(root) {
+  animation: iris-recede 1.2s cubic-bezier(0.7, 0, 0.2, 1) both;
+}
+
+@keyframes iris-open {
+  from { --iris: 0px; }
+  to { --iris: calc(var(--iris-r) + 120px); }
+}
+
+@keyframes iris-recede {
+  to { transform: scale(1.04); filter: brightness(0.8) saturate(0.85); }
+}
+
 /* shadcn tokens inside the cinema */
 .cinema {
   --background: 38 45% 92%;
