@@ -5,6 +5,9 @@ import { ModeToggle } from "@/components/mode-toggle"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
 import { useState } from "react"
+import { usePathname } from "next/navigation"
+import { cn } from "@/lib/utils"
+import { Logo } from "@/components/logo"
 import { motion, AnimatePresence } from "framer-motion"
 import { Search } from "lucide-react"
 
@@ -15,11 +18,12 @@ function CommandTrigger() {
                 const event = new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true })
                 document.dispatchEvent(event)
             }}
-            className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-sm text-muted-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground w-full max-w-[200px]"
+            aria-label="Search the site"
+            className="inline-flex h-10 w-10 items-center justify-center gap-2 border border-reel-bone/15 bg-reel-bone/[0.04] font-mono text-xs text-reel-bone/60 sm:w-[200px] sm:justify-start sm:px-3 transition-colors hover:border-reel-sodium/60 hover:text-reel-bone"
         >
             <Search className="h-3.5 w-3.5" />
             <span className="hidden sm:inline-flex">Search...</span>
-            <kbd className="ml-auto hidden sm:inline-flex pointer-events-none h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100">
+            <kbd className="pointer-events-none ml-auto hidden h-5 select-none items-center gap-1 border border-reel-bone/15 px-1.5 font-mono text-[10px] font-medium sm:inline-flex">
                 <span className="text-xs">⌘</span>K
             </kbd>
         </button>
@@ -35,21 +39,24 @@ const navLinks = [
 
 export function Header() {
     const [open, setOpen] = useState(false)
+    // The home page is a dark, full-bleed film; the header floats over it
+    const pathname = usePathname()
+    const cinematic = pathname === "/"
 
     return (
         <>
-            <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <header className={cn("sticky top-0 z-50 w-full", cinematic ? "border-transparent bg-gradient-to-b from-reel-page/70 to-transparent" : "border-b border-reel-bone/10 bg-reel-page/80 backdrop-blur-md")}>
                 <div className="container flex h-14 max-w-screen-2xl items-center">
                     <div className="mr-4 hidden md:flex">
-                        <Link href="/" className="mr-6 flex items-center space-x-2">
-                            <span className="hidden font-bold sm:inline-block">MyPortfolio</span>
+                        <Link href="/" className="mr-8 flex items-center py-1.5">
+                            <Logo />
                         </Link>
                         <nav className="flex items-center gap-4 text-sm lg:gap-6">
                             {navLinks.map(link => (
                                 <Link
                                     key={link.href}
                                     href={link.href}
-                                    className="text-sm font-medium transition-colors hover:text-foreground/80 text-foreground/60"
+                                    className={cn("font-mono text-[11px] uppercase tracking-[0.2em] transition-colors hover:text-reel-sodium", pathname.startsWith(link.href) ? "text-reel-bone" : "text-reel-bone/55")}
                                 >
                                     {link.label}
                                 </Link>
@@ -58,19 +65,22 @@ export function Header() {
                     </div>
 
                     {/* Mobile hamburger */}
-                    <div className="flex md:hidden">
+                    <div className="flex items-center gap-1 md:hidden">
                         <Button
                             variant="ghost"
-                            className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
+                            className="h-10 w-10 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
                             onClick={() => setOpen(true)}
                         >
                             <Menu className="h-6 w-6" />
                             <span className="sr-only">Open Menu</span>
                         </Button>
+                        <Link href="/" className="flex items-center py-1.5">
+                            <Logo className="[&_.font-mono]:hidden min-[400px]:[&_.font-mono]:block" />
+                        </Link>
                     </div>
 
-                    <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-                        <div className="w-full flex-1 md:w-auto md:flex-none">
+                    <div className="flex flex-1 items-center justify-end gap-2">
+                        <div>
                             <CommandTrigger />
                         </div>
                         <nav className="flex items-center">
@@ -88,13 +98,13 @@ export function Header() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.25 }}
-                        className="fixed inset-0 z-[100] bg-background flex flex-col md:hidden"
+                        className="fixed inset-0 z-[100] flex flex-col bg-reel-page md:hidden"
                     >
                         {/* Close button */}
                         <div className="flex justify-end p-5">
                             <button
                                 onClick={() => setOpen(false)}
-                                className="rounded-full border border-emerald-500 p-1.5 text-emerald-500 hover:bg-emerald-500/10 transition-colors"
+                                className="rounded-full border border-reel-sodium p-1.5 text-reel-sodium transition-colors hover:bg-reel-sodium/10"
                             >
                                 <X className="h-5 w-5" />
                                 <span className="sr-only">Close Menu</span>
@@ -113,7 +123,7 @@ export function Header() {
                                     <Link
                                         href={link.href}
                                         onClick={() => setOpen(false)}
-                                        className="text-5xl font-light tracking-wide text-muted-foreground hover:text-foreground transition-colors duration-200"
+                                        className="font-display text-5xl italic text-reel-bone/70 transition-colors duration-200 hover:text-reel-sodium"
                                     >
                                         {link.label}
                                     </Link>
@@ -132,7 +142,7 @@ export function Header() {
                                 <Button
                                     variant="outline"
                                     size="lg"
-                                    className="w-full tracking-widest uppercase text-sm border-foreground/30 hover:border-emerald-500 hover:text-emerald-500 transition-colors"
+                                    className="w-full rounded-none border-reel-bone/30 bg-transparent font-mono text-xs uppercase tracking-[0.3em] transition-colors hover:border-reel-sodium hover:text-reel-sodium"
                                 >
                                     Get in Touch →
                                 </Button>

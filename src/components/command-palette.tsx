@@ -31,6 +31,7 @@ import {
     CommandShortcut,
 } from "@/components/ui/command"
 import { allProjects } from "@/lib/projects"
+import { switchTheme } from "@/lib/theme-transition"
 
 export function CommandPalette() {
     const [open, setOpen] = React.useState(false)
@@ -153,12 +154,12 @@ export function CommandPalette() {
                     <CommandSeparator />
 
                     <CommandGroup heading="Appearance">
-                        <CommandItem onSelect={() => run(() => setTheme("light"))}>
+                        <CommandItem onSelect={() => run(() => switchTheme("light", setTheme))}>
                             <Sun className="mr-2 h-4 w-4" />
                             Light Mode
                             {theme === "light" && <CommandShortcut>✓</CommandShortcut>}
                         </CommandItem>
-                        <CommandItem onSelect={() => run(() => setTheme("dark"))}>
+                        <CommandItem onSelect={() => run(() => switchTheme("dark", setTheme))}>
                             <Moon className="mr-2 h-4 w-4" />
                             Dark Mode
                             {theme === "dark" && <CommandShortcut>✓</CommandShortcut>}

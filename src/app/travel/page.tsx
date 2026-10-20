@@ -1,164 +1,65 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { MapPin, Plane } from "lucide-react"
 import { TravelMap } from "@/components/travel-map"
+import { LocationStrip, Storyboards } from "@/components/cinema/location-strip"
+import { locations } from "@/lib/travel-data"
 
-const container = {
-    hidden: { opacity: 0 },
-    show: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.2
-        }
-    }
-}
-
-const item = {
-    hidden: { opacity: 0, y: 30 },
-    show: { opacity: 1, y: 0 }
-}
-
-const countries = [
-    {
-        name: "India",
-        status: "visited",
-        description: "Where it all began. Rich culture, diverse landscapes, and amazing food.",
-        year: "Home",
-        color: "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-200 dark:border-orange-800"
-    },
-    {
-        name: "United Kingdom",
-        status: "visited",
-        description: "Exploring history, castles, and the bustling city life of London and Manchester.",
-        year: "Visited",
-        color: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800"
-    },
-    {
-        name: "Ireland",
-        status: "visited",
-        description: "The Emerald Isle — known for its friendly people, stunning coastlines, and great craic.",
-        year: "Visited",
-        color: "bg-green-500/10 text-green-600 dark:text-green-400 border-green-200 dark:border-green-800"
-    },
-    {
-        name: "Thailand",
-        status: "visited",
-        description: "Tropical beaches, royal palaces, and ancient ruins — an unforgettable experience.",
-        year: "Visited",
-        color: "bg-green-500/10 text-green-600 dark:text-green-400 border-green-200 dark:border-green-800"
-    }
-]
-
-const nextDestinations = [
-    {
-        name: "United Arab Emirates",
-        description: "Modern skylines, desert adventures, and world-class architecture await.",
-        year: "Upcoming",
-    },
-    {
-        name: "Turkey",
-        description: "Where East meets West — stunning mosques, bazaars, and coastal scenery.",
-        year: "Upcoming",
-    },
-    {
-        name: "Spain",
-        description: "Vibrant culture, incredible food, and some of Europe's most beautiful cities.",
-        year: "Upcoming",
-    }
-]
+const visited = locations.filter((l) => l.status === "visited")
+const upcoming = locations.filter((l) => l.status === "next")
 
 export default function TravelPage() {
     return (
-        <div className="container py-10 md:py-20 min-h-screen">
-            <div className="flex flex-col items-start gap-4 mb-12">
-                <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="space-y-4 w-full"
+        <div className="overflow-x-clip">
+
+            <header className="px-4 pb-12 pt-16 sm:px-[6vw] md:pt-24">
+                <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="font-mono text-[10px] uppercase tracking-[0.4em] text-reel-sodium sm:text-xs"
                 >
-                    <div className="flex items-center gap-2 text-primary">
-                        <Plane className="h-6 w-6" />
-                        <span className="font-semibold tracking-wider uppercase text-sm">My Journey</span>
-                    </div>
-                    <h1 className="font-bold text-4xl tracking-tight lg:text-5xl">
-                        Countries I&apos;ve Visited
-                    </h1>
-                    <p className="text-muted-foreground mb-8">Here&apos;s a map of places I&apos;ve visited. I love exploring new cultures and trying new foods!</p>
-                    <p className="text-xl text-muted-foreground max-w-2xl">
-                        Exploring the world one country at a time. From my roots in India across Europe and Southeast Asia, with more adventures on the horizon.
-                    </p>
+                    Location scouting · {visited.length} shot, {upcoming.length} storyboarded
+                </motion.p>
+                <h1 className="mt-4 overflow-hidden font-display text-[clamp(3.5rem,11vw,10rem)] leading-[0.9] text-reel-bone">
+                    <motion.span
+                        className="block"
+                        initial={{ y: "100%" }}
+                        animate={{ y: "0%" }}
+                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                        On <span className="italic">location</span>
+                    </motion.span>
+                </h1>
+                <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5, duration: 0.8 }}
+                    className="mt-6 max-w-xl font-serif text-lg text-reel-bone/70 sm:text-xl"
+                >
+                    Every film needs its locations. From my roots in Kerala to Manchester, across Europe and Southeast
+                    Asia, with more scenes still on the storyboard.
+                </motion.p>
+                <div className="mt-12">
+                    <TravelMap />
+                </div>
+            </header>
 
-                    <div className="mt-8">
-                        <TravelMap />
-                    </div>
-                </motion.div>
+            <div className="px-4 pb-4 pt-12 sm:px-[6vw]">
+                <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-reel-bone/50 sm:text-xs">In the can</p>
+                <h2 className="mt-2 font-display text-[clamp(2.25rem,5vw,4.5rem)] italic leading-none text-reel-bone">
+                    Places I&apos;ve shot
+                </h2>
             </div>
+            <LocationStrip locations={visited} />
 
-            <motion.div
-                variants={container}
-                initial="hidden"
-                animate="show"
-                className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-            >
-                {countries.map((country) => (
-                    <motion.div key={country.name} variants={item}>
-                        <Card className={`h-full border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${country.color.split(' ')[3] || 'border-border'}`}>
-                            <CardHeader>
-                                <div className="flex justify-between items-start mb-2">
-                                    <Badge variant="outline" className={`${country.color} border-0`}>
-                                        {country.year}
-                                    </Badge>
-                                    <MapPin className="h-5 w-5 text-emerald-500" />
-                                </div>
-                                <CardTitle className="text-2xl">{country.name}</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <CardDescription className="text-base text-muted-foreground">
-                                    {country.description}
-                                </CardDescription>
-                            </CardContent>
-                        </Card>
-                    </motion.div>
-                ))}
-
-                <motion.div variants={item} className="md:col-span-2 lg:col-span-3 mt-8">
-                    <div className="relative">
-                        <div className="absolute inset-0 flex items-center" aria-hidden="true">
-                            <div className="w-full border-t border-muted" />
-                        </div>
-                        <div className="relative flex justify-center">
-                            <span className="bg-background px-2 text-sm text-muted-foreground uppercase tracking-wider">
-                                Up Next
-                            </span>
-                        </div>
-                    </div>
-                </motion.div>
-
-                {nextDestinations.map((destination) => (
-                    <motion.div key={destination.name} variants={item} className="w-full">
-                        <Card className="h-full border-2 border-dashed border-amber-500/50 bg-amber-500/5">
-                            <CardHeader>
-                                <div className="flex justify-between items-start mb-2">
-                                    <Badge variant="outline" className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border-0">
-                                        {destination.year}
-                                    </Badge>
-                                    <Plane className="h-5 w-5 text-amber-500" />
-                                </div>
-                                <CardTitle className="text-2xl">{destination.name}</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <CardDescription className="text-base">
-                                    {destination.description}
-                                </CardDescription>
-                            </CardContent>
-                        </Card>
-                    </motion.div>
-                ))}
-
-            </motion.div>
+            <section className="px-4 pb-24 pt-20 sm:px-[6vw]" aria-label="Upcoming destinations">
+                <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-reel-bone/50 sm:text-xs">Pre-production</p>
+                <h2 className="mb-10 mt-2 font-display text-[clamp(2.25rem,5vw,4.5rem)] italic leading-none text-reel-bone">
+                    Up next
+                </h2>
+                <Storyboards locations={upcoming} offset={visited.length} />
+            </section>
         </div>
     )
 }

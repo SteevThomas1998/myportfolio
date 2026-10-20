@@ -1,11 +1,9 @@
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { blogPosts } from "@/lib/blog-data"
-import { Badge } from "@/components/ui/badge"
-import { buttonVariants } from "@/components/ui/button"
 import Link from "next/link"
 import ReactMarkdown from "react-markdown"
-import { ChevronLeft } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { ArrowLeft } from "lucide-react"
+import { blogPosts } from "@/lib/blog-data"
 
 interface BlogPostPageProps {
     params: {
@@ -13,11 +11,26 @@ interface BlogPostPageProps {
     }
 }
 
-// Generate static params for all known posts to allow static export (optional but good practice)
 export async function generateStaticParams() {
     return blogPosts.map((post) => ({
         slug: post.slug,
     }))
+}
+
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+    const post = blogPosts.find((p) => p.slug === params.slug)
+    if (!post) return { title: "Post not found" }
+    return {
+        title: `${post.title} — Steev Thomas`,
+        description: post.excerpt,
+        openGraph: {
+            type: "article",
+            title: post.title,
+            description: post.excerpt,
+            url: `/blog/${post.slug}`,
+            images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Steev Thomas, Full Stack Developer" }],
+        },
+    }
 }
 
 export default function BlogPostPage({ params }: BlogPostPageProps) {
@@ -27,44 +40,34 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         notFound()
     }
 
+    // The markdown repeats the title as its first heading; the page header already shows it
+    const body = post.content.trim().replace(/^#\s+.*\n+/, "")
+    const words = body.split(/\s+/).length
+    const minutes = Math.max(1, Math.round(words / 220))
+
     return (
-        <article className="container relative max-w-3xl py-10 md:py-20">
+        <article className="px-4 pb-24 pt-10 sm:px-[6vw]">
             <Link
                 href="/blog"
-                className={cn(
-                    buttonVariants({ variant: "ghost" }),
-                    "absolute left-[-200px] top-14 hidden xl:inline-flex"
-                )}
+                className="group inline-flex items-center py-2 font-mono text-[11px] uppercase tracking-[0.25em] text-reel-bone/55 transition-colors hover:text-reel-sodium"
             >
-                <ChevronLeft className="mr-2 h-4 w-4" />
-                See all posts
+                <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+                Director&apos;s notes
             </Link>
 
-            <div className="mb-6 block xl:hidden">
-                <Link href="/blog" className="flex items-center text-sm text-muted-foreground hover:text-foreground">
-                    <ChevronLeft className="mr-1 h-4 w-4" />
-                    Back to blog
-                </Link>
-            </div>
-
-            <div className="space-y-4">
-                <div className="flex flex-wrap gap-2">
-                    {post.tags.map(tag => (
-                        <Badge key={tag} className="bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800">{tag}</Badge>
-                    ))}
-                </div>
-                <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
-                    {post.title}
-                </h1>
-                <p className="text-xl text-muted-foreground">
-                    {post.date}
+            <header className="mx-auto mt-10 max-w-3xl">
+                <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-reel-sodium sm:text-xs">
+                    {post.date} · {minutes} min read
                 </p>
-            </div>
+                <h1 className="mt-4 font-display text-[clamp(2.25rem,6vw,4.75rem)] leading-[1.02] text-reel-bone">{post.title}</h1>
+                <p className="mt-5 font-serif text-xl italic text-reel-bone/65">{post.excerpt}</p>
+                <p className="mt-6 border-b border-reel-bone/10 pb-8 font-mono text-[10px] uppercase tracking-[0.2em] text-reel-bone/45">
+                    {post.tags.join(" · ")}
+                </p>
+            </header>
 
-            <div className="mt-12">
-                <div className="prose prose-zinc dark:prose-invert max-w-none">
-                    <ReactMarkdown>{post.content}</ReactMarkdown>
-                </div>
+            <div className="prose prose-lg mx-auto mt-10 max-w-3xl font-serif prose-headings:font-display prose-headings:font-normal prose-h2:text-4xl prose-code:font-mono prose-code:before:content-none prose-code:after:content-none prose-pre:overflow-x-auto prose-img:w-full">
+                <ReactMarkdown>{body}</ReactMarkdown>
             </div>
         </article>
     )

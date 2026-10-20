@@ -1,88 +1,53 @@
 "use client"
 
 import Link from "next/link"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { blogPosts } from "@/lib/blog-data"
 import { motion } from "framer-motion"
-import { CalendarIcon, ArrowRightIcon } from "lucide-react"
-
-const container = {
-    hidden: { opacity: 0 },
-    show: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.1
-        }
-    }
-}
-
-const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 }
-}
+import { blogPosts } from "@/lib/blog-data"
+import { SceneHeader } from "@/components/cinema/scene-header"
 
 export default function BlogPage() {
     return (
-        <div className="container py-10 md:py-20 min-h-screen">
-            <div className="flex flex-col items-start gap-4 md:flex-row md:justify-between md:gap-8 mb-12">
-                <div className="flex-1 space-y-4">
-                    <motion.h1
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className="inline-block font-bold text-4xl tracking-tight lg:text-5xl"
-                    >
-                        Blog
-                    </motion.h1>
-                    <motion.p
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.1 }}
-                        className="text-xl text-muted-foreground"
-                    >
-                        Thoughts on software development, design, and more.
-                    </motion.p>
-                </div>
-            </div>
+        <div className="overflow-x-clip pb-24">
+            <SceneHeader
+                kicker={`Director's notes · ${blogPosts.length} entries`}
+                title={
+                    <>
+                        Notes from the <span className="italic">edit</span>
+                    </>
+                }
+                lede="Thoughts on software development, design, and what I learn building things."
+            />
 
-            <motion.div
-                variants={container}
-                initial="hidden"
-                animate="show"
-                className={`grid gap-6 ${blogPosts.length === 1 ? "max-w-2xl" : "md:grid-cols-2"}`}
-            >
-                {blogPosts.map((post) => (
-                    <motion.div key={post.slug} variants={item}>
-                        <Link href={`/blog/${post.slug}`} className="h-full block group">
-                            <Card className="flex flex-col h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-emerald-500/50 glow-emerald">
-                                <CardHeader>
-                                    <div className="flex flex-wrap gap-2 mb-3">
-                                        {post.tags.map(tag => (
-                                            <Badge key={tag} className="font-normal text-xs bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800">{tag}</Badge>
-                                        ))}
-                                    </div>
-                                    <CardTitle className="text-2xl leading-tight group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                                        {post.title}
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent className="flex-1">
-                                    <p className="text-muted-foreground mb-4 line-clamp-3">{post.excerpt}</p>
-                                    <div className="flex items-center text-sm text-muted-foreground mt-auto">
-                                        <CalendarIcon className="mr-2 h-4 w-4" />
-                                        {post.date}
-                                    </div>
-                                </CardContent>
-                                <CardFooter>
-                                    <div className="text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-2 text-sm group-hover:translate-x-1 transition-transform">
-                                        Read article
-                                        <ArrowRightIcon className="w-4 h-4" />
-                                    </div>
-                                </CardFooter>
-                            </Card>
+            <ol className="mx-4 border-t border-reel-bone/10 sm:mx-[6vw]">
+                {blogPosts.map((post, i) => (
+                    <motion.li
+                        key={post.slug}
+                        initial={{ opacity: 0, y: 24 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-60px" }}
+                        transition={{ duration: 0.6, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                        className="border-b border-reel-bone/10"
+                    >
+                        <Link href={`/blog/${post.slug}`} className="group grid gap-3 py-10 md:grid-cols-[12rem_1fr_auto] md:gap-10">
+                            <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-reel-bone/50">
+                                <span className="text-reel-sodium">No. {String(blogPosts.length - i).padStart(2, "0")}</span>
+                                <br />
+                                {post.date}
+                            </p>
+                            <div className="min-w-0">
+                                <h2 className="font-display text-[clamp(1.75rem,3.5vw,3rem)] leading-[1.05] text-reel-bone transition-colors group-hover:text-reel-sodium">
+                                    {post.title}
+                                </h2>
+                                <p className="mt-3 line-clamp-3 max-w-3xl font-serif text-lg text-reel-bone/65">{post.excerpt}</p>
+                                <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.2em] text-reel-bone/40">{post.tags.join(" · ")}</p>
+                            </div>
+                            <span className="hidden self-center font-mono text-xs uppercase tracking-[0.25em] text-reel-sodium transition-transform group-hover:translate-x-1 md:block">
+                                Read →
+                            </span>
                         </Link>
-                    </motion.div>
+                    </motion.li>
                 ))}
-            </motion.div>
+            </ol>
         </div>
     )
 }

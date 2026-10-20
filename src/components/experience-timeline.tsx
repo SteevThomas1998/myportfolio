@@ -1,7 +1,6 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Badge } from "@/components/ui/badge"
 
 const experienceData = [
     {
@@ -54,44 +53,37 @@ const experienceData = [
 
 export function ExperienceTimeline() {
     return (
-        <div className="relative border-l border-emerald-500/30 ml-4 md:ml-6 space-y-12">
+        <div className="divide-y divide-reel-bone/10 border-y border-reel-bone/10">
             {experienceData.map((item, index) => (
-                <motion.div
+                <motion.article
                     key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.2, delay: index * 0.07 }}
-                    className="relative pl-8 md:pl-12"
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-80px" }}
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    className="grid gap-4 py-10 md:grid-cols-[14rem_1fr] md:gap-10"
                 >
-                    {/* Timeline Dot */}
-                    <span className="absolute top-0 left-[-5px] md:left-[-6px] rounded-full h-3 w-3 bg-emerald-500 ring-4 ring-background" />
-
-                    <div className="flex flex-col gap-2">
-                        <span className="text-sm text-emerald-600 dark:text-emerald-400 font-mono mb-1">
-                            {item.year}
-                        </span>
-                        <div className="flex flex-col gap-1">
-                            <h3 className="text-xl font-semibold leading-none">{item.title}</h3>
-                            <span className="text-muted-foreground">{item.company}</span>
-                        </div>
-                        <ul className="mt-2 max-w-2xl space-y-1.5">
+                    <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-reel-bone/50">
+                        <span className="text-reel-sodium">Take {String(experienceData.length - index).padStart(2, "0")}</span>
+                        <br />
+                        {item.year}
+                    </div>
+                    <div>
+                        <h3 className="font-display text-3xl leading-tight text-reel-bone sm:text-4xl">{item.title}</h3>
+                        <p className="mt-1 font-serif text-lg italic text-reel-bone/60">{item.company}</p>
+                        <ul className="mt-5 max-w-3xl space-y-2.5">
                             {item.bullets.map((bullet, i) => (
-                                <li key={i} className="flex items-start gap-2 text-muted-foreground text-sm">
-                                    <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0" />
+                                <li key={i} className="flex items-start gap-3 font-serif text-reel-bone/75 sm:text-[17px]">
+                                    <span className="mt-[0.6em] h-px w-4 shrink-0 bg-reel-sodium" />
                                     {bullet}
                                 </li>
                             ))}
                         </ul>
-                        <div className="flex flex-wrap gap-2 mt-3">
-                            {item.skills.map((skill) => (
-                                <Badge key={skill} className="text-xs bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800">
-                                    {skill}
-                                </Badge>
-                            ))}
-                        </div>
+                        <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.2em] text-reel-bone/45 sm:text-[11px]">
+                            {item.skills.join(" · ")}
+                        </p>
                     </div>
-                </motion.div>
+                </motion.article>
             ))}
         </div>
     )

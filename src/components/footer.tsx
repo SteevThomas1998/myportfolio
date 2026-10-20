@@ -1,9 +1,11 @@
 export function Footer() {
     return (
-        <footer className="py-6 md:px-8 md:py-0">
-            <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
-                <p className="text-balance text-center text-sm leading-loose text-muted-foreground md:text-left">
-                    © {new Date().getFullYear()} Built by Steev Thomas.
+        // Bottom/right padding keeps the credits clear of the fixed AI assistant launcher
+        <footer className="border-t border-reel-bone/15 px-4 pb-24 pt-8 sm:py-8 sm:pl-[6vw] sm:pr-[max(6vw,16rem)]">
+            <div className="flex flex-col items-center justify-between gap-3 text-center font-mono text-[10px] uppercase tracking-[0.3em] text-reel-bone/75 sm:flex-row sm:text-[11px]">
+                <p>© {new Date().getFullYear()} Steev Thomas</p>
+                <p>
+                    Shot on Next.js · Visuals by Higgsfield · <span className="text-reel-sodium">Fin.</span>
                 </p>
             </div>
         </footer>
